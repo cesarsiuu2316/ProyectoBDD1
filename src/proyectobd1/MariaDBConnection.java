@@ -10,7 +10,7 @@ public class MariaDBConnection {
     Connection connection = null;
     private String url = "jdbc:mariadb://localhost:3306/northwind";
     private String user = "root";
-    private String pwd = "cesar2316";
+    private String pwd = "root";
     
     MariaDBConnection(){        
         try {
@@ -18,7 +18,6 @@ public class MariaDBConnection {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        System.out.println("Successfully connected to database.");
     }    
     
     public void proyeccion(String tabla, String columna1, String columna2){
