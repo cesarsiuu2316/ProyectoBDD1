@@ -9,6 +9,8 @@ import javax.swing.JTabbedPane;
 import org.mariadb.jdbc.Statement;
 import proyectobd1.MariaDBConnection;
 import java.sql.PreparedStatement;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 
 public class MainFrame extends javax.swing.JFrame {
