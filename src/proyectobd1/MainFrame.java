@@ -307,7 +307,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
-        listResultado.setModel(modelo);
+        listResultado.setModel(modelo); 
     }//GEN-LAST:event_txtProdKeyReleased
 
     
