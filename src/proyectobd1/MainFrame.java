@@ -55,7 +55,6 @@ public class MainFrame extends javax.swing.JFrame {
         btnOrdenar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtProd = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         listResultado = new javax.swing.JList<>();
         btnSeleccionarProd = new javax.swing.JButton();
@@ -181,18 +180,14 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel8.setText("Ingrese el nombre del producto:");
         jPanel2.add(jLabel8);
         jLabel8.setBounds(450, 60, 199, 17);
-        jPanel2.add(txtProd);
-        txtProd.setBounds(450, 80, 200, 23);
 
-        btnBuscar.setBackground(new java.awt.Color(153, 153, 255));
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
+        txtProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtProdKeyReleased(evt);
             }
         });
-        jPanel2.add(btnBuscar);
-        btnBuscar.setBounds(670, 70, 90, 30);
+        jPanel2.add(txtProd);
+        txtProd.setBounds(450, 80, 200, 23);
 
         listResultado.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(listResultado);
@@ -264,18 +259,19 @@ public class MainFrame extends javax.swing.JFrame {
         mb.proyeccion("Orders", "OrderID", "CustomerID");
     }//GEN-LAST:event_obtenerTablaButtonMouseClicked
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String prod = txtProd.getText();
+    private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
+        
+    }//GEN-LAST:event_btnSeleccionarProdActionPerformed
+
+    private void txtProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdKeyReleased
         int prodID = 0;
         DefaultListModel modelo = new DefaultListModel();
-        
-        if (!prod.isBlank() && !prod.isEmpty()) {
-            //
+        if (!txtProd.getText().isBlank()) {
             c = new MariaDBConnection();
             Statement st = null;
             ResultSet rs = null;
             
-            String query = "select * from products p where p.ProductName regexp '^" +prod+ "'";
+            String query = "select * from products p where p.ProductName regexp '^" +txtProd.getText()+ "'";
             try {
                 st = c.connection.createStatement();
                 rs = st.executeQuery(query);
@@ -285,19 +281,10 @@ public class MainFrame extends javax.swing.JFrame {
                 c.connection.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
-            }    
-            //
+            }
         }
-        else {
-            JOptionPane.showMessageDialog(this, "Debe ingresar el nombre del producto a buscar.");
-        }
-        
         listResultado.setModel(modelo);
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
-        
-    }//GEN-LAST:event_btnSeleccionarProdActionPerformed
+    }//GEN-LAST:event_txtProdKeyReleased
 
     
     public static void main(String args[]) {
@@ -333,7 +320,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnOrdenar;
     private javax.swing.JButton btnSeleccionarProd;
     private javax.swing.JFormattedTextField ftxtPeso;
