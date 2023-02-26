@@ -9,14 +9,18 @@ import javax.swing.JTabbedPane;
 import org.mariadb.jdbc.Statement;
 import proyectobd1.MariaDBConnection;
 import java.sql.PreparedStatement;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
 public class MainFrame extends javax.swing.JFrame {
     MariaDBConnection c = null;
+    ArrayList<Product> productos = new ArrayList();
+    
     
     public MainFrame() {
+        cargarDatos();
         initComponents(); 
         this.setLocationRelativeTo(null);
         this.setTitle("Proyecto 1 - Teoría de Bases de Datos I");
@@ -59,7 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
         listResultado = new javax.swing.JList<>();
         btnSeleccionarProd = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblProd = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         obtenerTablaButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -205,8 +209,25 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.add(btnSeleccionarProd);
         btnSeleccionarProd.setBounds(650, 210, 50, 23);
 
-        jTable1.setModel(new DefaultTableModel());
-        jScrollPane2.setViewportView(jTable1);
+        tblProd.setAutoCreateColumnsFromModel(false);
+        tblProd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null}
+            },
+            new String [] {
+                "Productos", "Title 2"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProd.setOpaque(false);
+        jScrollPane2.setViewportView(tblProd);
 
         jPanel2.add(jScrollPane2);
         jScrollPane2.setBounds(710, 120, 210, 220);
@@ -260,11 +281,14 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_obtenerTablaButtonMouseClicked
 
     private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
+//        DefaultTableModel tabla = new DefaultTableModel();
+//        DefaultListModel lista = (DefaultListModel)listResultado.getModel();
+//        lista.get(listResultado.getSelectedIndex());
+//        
         
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
 
     private void txtProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdKeyReleased
-        int prodID = 0;
         DefaultListModel modelo = new DefaultListModel();
         if (!txtProd.getText().isBlank()) {
             c = new MariaDBConnection();
@@ -319,6 +343,37 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void cargarDatos() {
+        c = new MariaDBConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        
+        // Cargar productos
+        String query = "select * from products";
+        try {
+            st = c.connection.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()) {
+                productos.add(new Product(rs.getInt("ProductID"), rs.getString("ProductName"),
+                        rs.getInt("SupplierID"), rs.getInt("CategoryID"),
+                        rs.getString("QuantityPerUnit"), rs.getDouble("UnitPrice"),
+                        rs.getInt("UnitsInStock"), rs.getInt("UnitsOnOrder"),
+                        rs.getInt("ReorderLevel"), (rs.getString("Discontinued").equals("y"))));
+            }
+            c.connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+//        String[] header = {"Producto", "Cantidad"};
+//        DefaultTableModel modelo = new DefaultTableModel(header, 0);
+//        Object[] fila = {"Papa", 2};
+//        modelo.addRow(fila);
+//        tblProd = new JTable(modelo);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOrdenar;
     private javax.swing.JButton btnSeleccionarProd;
@@ -343,12 +398,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JList<String> listResultado;
     private proyectobd1.MaterialTabbed materialTabbed1;
     private javax.swing.JButton obtenerTablaButton;
+    private javax.swing.JTable tblProd;
     private javax.swing.JTextField txtBarco;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtCliente;
