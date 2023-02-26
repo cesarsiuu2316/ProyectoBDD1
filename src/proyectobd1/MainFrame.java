@@ -74,9 +74,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/nice copia.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/nice copia.png")));
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 20, 140, 140));
-
         materialTabbed1.setForeground(new java.awt.Color(255, 255, 255));
         materialTabbed1.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
 
@@ -249,7 +248,6 @@ public class MainFrame extends javax.swing.JFrame {
         materialTabbed1.addTab("Reportes", jPanel4);
 
         jPanel1.add(materialTabbed1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 970, 500));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/gradPinkAzul copia.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -10, -1, 610));
         jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -298,7 +296,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
         
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
-
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -333,24 +330,9 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnOrdenar;
-    private javax.swing.JButton btnSeleccionarProd;
-    private javax.swing.JFormattedTextField ftxtPeso;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -373,5 +355,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtPostal;
     private javax.swing.JTextField txtProd;
     private javax.swing.JTextField txtRegion;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
 }
