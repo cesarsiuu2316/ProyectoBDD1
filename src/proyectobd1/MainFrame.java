@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 
 
 public class MainFrame extends javax.swing.JFrame {
@@ -62,8 +64,8 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         listResultado = new javax.swing.JList<>();
         btnSeleccionarProd = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblProd = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblProds = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         obtenerTablaButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -207,15 +209,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnSeleccionarProd);
-        btnSeleccionarProd.setBounds(650, 210, 50, 23);
+        btnSeleccionarProd.setBounds(650, 210, 40, 23);
 
-        tblProd.setAutoCreateColumnsFromModel(false);
-        tblProd.setModel(new javax.swing.table.DefaultTableModel(
+        tblProds.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
-                "Productos", "Title 2"
+                "Producto", "Cantidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -226,11 +227,10 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblProd.setOpaque(false);
-        jScrollPane2.setViewportView(tblProd);
+        jScrollPane1.setViewportView(tblProds);
 
-        jPanel2.add(jScrollPane2);
-        jScrollPane2.setBounds(710, 120, 210, 220);
+        jPanel2.add(jScrollPane1);
+        jScrollPane1.setBounds(710, 120, 190, 220);
 
         materialTabbed1.addTab("Gestión de Órdenes", jPanel2);
 
@@ -284,7 +284,7 @@ public class MainFrame extends javax.swing.JFrame {
 //        DefaultTableModel tabla = new DefaultTableModel();
 //        DefaultListModel lista = (DefaultListModel)listResultado.getModel();
 //        lista.get(listResultado.getSelectedIndex());
-//        
+////        
         
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
 
@@ -365,13 +365,6 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
-        
-//        String[] header = {"Producto", "Cantidad"};
-//        DefaultTableModel modelo = new DefaultTableModel(header, 0);
-//        Object[] fila = {"Papa", 2};
-//        modelo.addRow(fila);
-//        tblProd = new JTable(modelo);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -396,14 +389,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JList<String> listResultado;
     private proyectobd1.MaterialTabbed materialTabbed1;
     private javax.swing.JButton obtenerTablaButton;
-    private javax.swing.JTable tblProd;
+    private javax.swing.JTable tblProds;
     private javax.swing.JTextField txtBarco;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtCliente;

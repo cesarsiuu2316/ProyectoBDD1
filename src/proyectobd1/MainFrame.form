@@ -407,32 +407,30 @@
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="650" y="210" width="50" height="-1"/>
+                      <AbsoluteConstraints x="650" y="210" width="40" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="710" y="120" width="210" height="220"/>
+                      <AbsoluteConstraints x="710" y="120" width="190" height="220"/>
                     </Constraint>
                   </Constraints>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="tblProd">
+                    <Component class="javax.swing.JTable" name="tblProds">
                       <Properties>
-                        <Property name="autoCreateColumnsFromModel" type="boolean" value="false"/>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="1">
-                            <Column editable="false" title="Productos" type="java.lang.Object"/>
-                            <Column editable="false" title="Title 2" type="java.lang.Object"/>
+                          <Table columnCount="2" rowCount="0">
+                            <Column editable="false" title="Producto" type="java.lang.Object"/>
+                            <Column editable="false" title="Cantidad" type="java.lang.Object"/>
                           </Table>
                         </Property>
-                        <Property name="opaque" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                   </SubComponents>
