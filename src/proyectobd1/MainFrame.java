@@ -151,11 +151,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.add(jLabel6);
         jLabel6.setBounds(50, 240, 31, 17);
 
-        try {
-            ftxtPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####.##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        ftxtPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.##"))));
         jPanel2.add(ftxtPeso);
         ftxtPeso.setBounds(50, 260, 140, 23);
 
@@ -211,6 +207,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnOrdenar.setBackground(new java.awt.Color(153, 153, 255));
         btnOrdenar.setText("Crear orden");
+        btnOrdenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdenarActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnOrdenar);
         btnOrdenar.setBounds(710, 350, 200, 30);
 
@@ -382,7 +383,7 @@ public class MainFrame extends javax.swing.JFrame {
                 st = c.connection.createStatement();
                 rs = st.executeQuery(query);
                 while(rs.next()){
-                    modelo.addElement(rs.getString("ProductName"));
+                    modelo.addElement(rs.getString("ProductName")+" ($"+rs.getDouble("UnitPrice")+")");
                 }
                 c.connection.close();
             } catch (SQLException ex) {
@@ -454,6 +455,26 @@ public class MainFrame extends javax.swing.JFrame {
             popupTabla.show(evt.getComponent(), evt.getX(), evt.getY());
     }//GEN-LAST:event_tblProdsMouseClicked
 
+    private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
+        if (txtValid(txtBarco) && txtValid(txtCiudad) && txtValid(txtCliente)
+                && txtValid(txtDir) && txtValid(txtEmp) && txtValid(txtEnvio)
+                && txtValid(txtPais) && txtValid(txtPostal) && txtValid(txtRegion)) {
+            if (tblProds.getRowCount() > 0) {
+                ArrayList<Product> prodsOrden = new ArrayList();
+                for (int i = 0; i < tblProds.getRowCount(); i++)
+                    for (Product p : productos)
+                        if (p.name.equals(tblProds.getValueAt(i, 0)))
+                            prodsOrden.add(p);
+                
+// Crear order y order details para guardar los ids de productos y cantidades de un solo
+            }
+            else
+                JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.", "", 1);
+        }
+        else 
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 1);
+    }//GEN-LAST:event_btnOrdenarActionPerformed
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -509,6 +530,10 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public boolean txtValid(JTextField txt) {
+        return (!txt.getText().isBlank() && !txt.getText().isEmpty());
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
