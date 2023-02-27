@@ -43,6 +43,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel11 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
+        popupTabla = new javax.swing.JPopupMenu();
+        popElim = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        popEditar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         materialTabbed1 = new proyectobd1.MaterialTabbed();
@@ -75,6 +79,8 @@ public class MainFrame extends javax.swing.JFrame {
         btnSeleccionarProd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProds = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         obtenerTablaButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -83,6 +89,23 @@ public class MainFrame extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
 
         jLabel11.setText("Ciudad del envío");
+
+        popElim.setText("Eliminar producto");
+        popElim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popElimActionPerformed(evt);
+            }
+        });
+        popupTabla.add(popElim);
+        popupTabla.add(jSeparator1);
+
+        popEditar.setText("Modificar cantidad");
+        popEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popEditarActionPerformed(evt);
+            }
+        });
+        popupTabla.add(popEditar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -98,35 +121,35 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(192, 195, 216));
         jPanel2.setLayout(null);
         jPanel2.add(txtCliente);
-        txtCliente.setBounds(50, 80, 140, 22);
+        txtCliente.setBounds(50, 80, 140, 23);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setText("Nombre del cliente");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(50, 60, 121, 18);
+        jLabel1.setBounds(50, 60, 116, 17);
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel4.setForeground(java.awt.Color.white);
         jLabel4.setText("Nombre del empleado");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(50, 120, 142, 18);
+        jLabel4.setBounds(50, 120, 136, 17);
         jPanel2.add(txtEmp);
-        txtEmp.setBounds(50, 140, 140, 22);
+        txtEmp.setBounds(50, 140, 140, 23);
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel5.setForeground(java.awt.Color.white);
         jLabel5.setText("Nombre del envío");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(50, 180, 113, 18);
+        jLabel5.setBounds(50, 180, 109, 17);
         jPanel2.add(txtEnvio);
-        txtEnvio.setBounds(50, 200, 140, 22);
+        txtEnvio.setBounds(50, 200, 140, 23);
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel6.setForeground(java.awt.Color.white);
         jLabel6.setText("Peso");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(50, 240, 31, 18);
+        jLabel6.setBounds(50, 240, 31, 17);
 
         try {
             ftxtPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####.##")));
@@ -134,68 +157,68 @@ public class MainFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         jPanel2.add(ftxtPeso);
-        ftxtPeso.setBounds(50, 260, 140, 22);
+        ftxtPeso.setBounds(50, 260, 140, 23);
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel7.setForeground(java.awt.Color.white);
         jLabel7.setText("Nombre del barco");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(50, 300, 114, 18);
+        jLabel7.setBounds(50, 300, 111, 17);
         jPanel2.add(txtBarco);
-        txtBarco.setBounds(50, 320, 140, 22);
+        txtBarco.setBounds(50, 320, 140, 23);
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel9.setForeground(java.awt.Color.white);
         jLabel9.setText("Dirección del envío");
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(250, 60, 123, 18);
+        jLabel9.setBounds(250, 60, 117, 17);
         jPanel2.add(txtDir);
-        txtDir.setBounds(250, 80, 140, 22);
+        txtDir.setBounds(250, 80, 140, 23);
 
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel10.setForeground(java.awt.Color.white);
         jLabel10.setText("Ciudad del envío");
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(250, 120, 108, 18);
+        jLabel10.setBounds(250, 120, 103, 17);
         jPanel2.add(txtCiudad);
-        txtCiudad.setBounds(250, 140, 140, 22);
+        txtCiudad.setBounds(250, 140, 140, 23);
 
         jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel12.setForeground(java.awt.Color.white);
         jLabel12.setText("Región del envío");
         jPanel2.add(jLabel12);
-        jLabel12.setBounds(250, 180, 108, 18);
+        jLabel12.setBounds(250, 180, 102, 17);
         jPanel2.add(txtRegion);
-        txtRegion.setBounds(250, 200, 140, 22);
+        txtRegion.setBounds(250, 200, 140, 23);
 
         jLabel13.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel13.setForeground(java.awt.Color.white);
         jLabel13.setText("Código postal del envío");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(250, 240, 150, 18);
+        jLabel13.setBounds(250, 240, 146, 17);
 
         txtPostal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
         jPanel2.add(txtPostal);
-        txtPostal.setBounds(250, 260, 140, 22);
+        txtPostal.setBounds(250, 260, 140, 23);
 
         jLabel14.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel14.setForeground(java.awt.Color.white);
         jLabel14.setText("País de envío");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(250, 300, 86, 18);
+        jLabel14.setBounds(250, 300, 82, 17);
         jPanel2.add(txtPais);
-        txtPais.setBounds(250, 320, 140, 22);
+        txtPais.setBounds(250, 320, 140, 23);
 
         btnOrdenar.setBackground(new java.awt.Color(153, 153, 255));
         btnOrdenar.setText("Crear orden");
         jPanel2.add(btnOrdenar);
-        btnOrdenar.setBounds(570, 410, 270, 30);
+        btnOrdenar.setBounds(710, 350, 200, 30);
 
         jLabel8.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Ingrese el nombre del producto:");
+        jLabel8.setText("Productos encontrados");
         jPanel2.add(jLabel8);
-        jLabel8.setBounds(450, 60, 204, 18);
+        jLabel8.setBounds(450, 110, 199, 30);
 
         txtProd.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -203,13 +226,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtProd);
-        txtProd.setBounds(450, 80, 200, 22);
+        txtProd.setBounds(450, 80, 200, 30);
 
         listResultado.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(listResultado);
 
         jPanel2.add(jScrollPane3);
-        jScrollPane3.setBounds(450, 120, 190, 220);
+        jScrollPane3.setBounds(450, 140, 200, 200);
 
         btnSeleccionarProd.setBackground(new java.awt.Color(153, 153, 255));
         btnSeleccionarProd.setText("➜");
@@ -219,7 +242,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnSeleccionarProd);
-        btnSeleccionarProd.setBounds(650, 210, 40, 22);
+        btnSeleccionarProd.setBounds(660, 220, 40, 23);
 
         tblProds.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -237,10 +260,27 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblProds.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProdsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProds);
 
         jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(710, 120, 190, 220);
+        jScrollPane1.setBounds(710, 140, 200, 200);
+
+        jLabel15.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Ingrese el nombre del producto:");
+        jPanel2.add(jLabel15);
+        jLabel15.setBounds(450, 60, 199, 17);
+
+        jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Productos agregados a la orden");
+        jPanel2.add(jLabel16);
+        jLabel16.setBounds(710, 110, 199, 30);
 
         materialTabbed1.addTab("Gestión de Órdenes", jPanel2);
 
@@ -310,11 +350,24 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_obtenerTablaButtonMouseClicked
 
     private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
-//        DefaultTableModel tabla = new DefaultTableModel();
-//        DefaultListModel lista = (DefaultListModel)listResultado.getModel();
-//        lista.get(listResultado.getSelectedIndex());
-////        
+        DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
+        DefaultListModel lista = (DefaultListModel)listResultado.getModel();
+        lista.get(listResultado.getSelectedIndex());
         
+        String prod = lista.get(listResultado.getSelectedIndex()).toString();
+        boolean existe = false;
+        
+        for (int i = 0; i < tabla.getRowCount() && !existe; i++)
+            existe = tabla.getValueAt(i, 0).toString().equals(prod);
+        
+        if (!existe) {
+            String[] fila = {prod, "1"};
+            tabla.addRow(fila);
+            tblProds.setModel(tabla);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "El producto ya fue agregado a la orden.", "", 1);
+        }
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
 
     private void txtProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdKeyReleased
@@ -367,6 +420,39 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(DocumentException E){
         }
     }//GEN-LAST:event_btnReportesActionPerformed
+
+    private void popElimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popElimActionPerformed
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro que desea eliminar este producto de la orden?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.OK_OPTION) {
+            DefaultTableModel modelito = (DefaultTableModel) tblProds.getModel();
+            modelito.removeRow(tblProds.getSelectedRow());
+            tblProds.setModel(modelito);
+        }
+    }//GEN-LAST:event_popElimActionPerformed
+
+    private void popEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarActionPerformed
+        DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
+        String cant = JOptionPane.showInputDialog(this, "Ingrese la nueva cantidad");
+        try {
+            if (Integer.parseInt(cant) >= 1) {
+                tabla.setValueAt(cant, tblProds.getSelectedRow(), 1);
+                tblProds.setModel(tabla);
+                return;
+            }
+        } catch (Exception e) {}
+        JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.", "", 1);
+    }//GEN-LAST:event_popEditarActionPerformed
+
+    private void tblProdsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdsMouseClicked
+        if (evt.isMetaDown())
+            popupTabla.show(evt.getComponent(), evt.getX(), evt.getY());
+    }//GEN-LAST:event_tblProdsMouseClicked
 
     
     public static void main(String args[]) {
@@ -436,6 +522,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -450,11 +538,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JList<String> listResultado;
     private proyectobd1.MaterialTabbed materialTabbed1;
     private javax.swing.JButton obtenerTablaButton;
+    private javax.swing.JMenuItem popEditar;
+    private javax.swing.JMenuItem popElim;
+    private javax.swing.JPopupMenu popupTabla;
     private javax.swing.JTable tblProds;
     private javax.swing.JTextField txtBarco;
     private javax.swing.JTextField txtCiudad;
