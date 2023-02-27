@@ -10,7 +10,7 @@ public class MariaDBConnection {
     Connection connection = null;
     private String url = "jdbc:mariadb://localhost:3306/northwind";
     private String user = "root";
-    private String pwd = "root";
+    private String pwd = "cesar2316";
     
     MariaDBConnection(){        
         try {

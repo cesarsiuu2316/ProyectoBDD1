@@ -14,7 +14,16 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
-
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Chunk;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainFrame extends javax.swing.JFrame {
     MariaDBConnection c = null;
@@ -69,6 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         obtenerTablaButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        btnReportes = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
 
@@ -88,35 +98,35 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(192, 195, 216));
         jPanel2.setLayout(null);
         jPanel2.add(txtCliente);
-        txtCliente.setBounds(50, 80, 140, 23);
+        txtCliente.setBounds(50, 80, 140, 22);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setText("Nombre del cliente");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(50, 60, 116, 17);
+        jLabel1.setBounds(50, 60, 121, 18);
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel4.setForeground(java.awt.Color.white);
         jLabel4.setText("Nombre del empleado");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(50, 120, 136, 17);
+        jLabel4.setBounds(50, 120, 142, 18);
         jPanel2.add(txtEmp);
-        txtEmp.setBounds(50, 140, 140, 23);
+        txtEmp.setBounds(50, 140, 140, 22);
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel5.setForeground(java.awt.Color.white);
         jLabel5.setText("Nombre del envío");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(50, 180, 109, 17);
+        jLabel5.setBounds(50, 180, 113, 18);
         jPanel2.add(txtEnvio);
-        txtEnvio.setBounds(50, 200, 140, 23);
+        txtEnvio.setBounds(50, 200, 140, 22);
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel6.setForeground(java.awt.Color.white);
         jLabel6.setText("Peso");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(50, 240, 31, 17);
+        jLabel6.setBounds(50, 240, 31, 18);
 
         try {
             ftxtPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####.##")));
@@ -124,57 +134,57 @@ public class MainFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         jPanel2.add(ftxtPeso);
-        ftxtPeso.setBounds(50, 260, 140, 23);
+        ftxtPeso.setBounds(50, 260, 140, 22);
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel7.setForeground(java.awt.Color.white);
         jLabel7.setText("Nombre del barco");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(50, 300, 111, 17);
+        jLabel7.setBounds(50, 300, 114, 18);
         jPanel2.add(txtBarco);
-        txtBarco.setBounds(50, 320, 140, 23);
+        txtBarco.setBounds(50, 320, 140, 22);
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel9.setForeground(java.awt.Color.white);
         jLabel9.setText("Dirección del envío");
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(250, 60, 117, 17);
+        jLabel9.setBounds(250, 60, 123, 18);
         jPanel2.add(txtDir);
-        txtDir.setBounds(250, 80, 140, 23);
+        txtDir.setBounds(250, 80, 140, 22);
 
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel10.setForeground(java.awt.Color.white);
         jLabel10.setText("Ciudad del envío");
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(250, 120, 103, 17);
+        jLabel10.setBounds(250, 120, 108, 18);
         jPanel2.add(txtCiudad);
-        txtCiudad.setBounds(250, 140, 140, 23);
+        txtCiudad.setBounds(250, 140, 140, 22);
 
         jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel12.setForeground(java.awt.Color.white);
         jLabel12.setText("Región del envío");
         jPanel2.add(jLabel12);
-        jLabel12.setBounds(250, 180, 102, 17);
+        jLabel12.setBounds(250, 180, 108, 18);
         jPanel2.add(txtRegion);
-        txtRegion.setBounds(250, 200, 140, 23);
+        txtRegion.setBounds(250, 200, 140, 22);
 
         jLabel13.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel13.setForeground(java.awt.Color.white);
         jLabel13.setText("Código postal del envío");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(250, 240, 146, 17);
+        jLabel13.setBounds(250, 240, 150, 18);
 
         txtPostal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
         jPanel2.add(txtPostal);
-        txtPostal.setBounds(250, 260, 140, 23);
+        txtPostal.setBounds(250, 260, 140, 22);
 
         jLabel14.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel14.setForeground(java.awt.Color.white);
         jLabel14.setText("País de envío");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(250, 300, 82, 17);
+        jLabel14.setBounds(250, 300, 86, 18);
         jPanel2.add(txtPais);
-        txtPais.setBounds(250, 320, 140, 23);
+        txtPais.setBounds(250, 320, 140, 22);
 
         btnOrdenar.setBackground(new java.awt.Color(153, 153, 255));
         btnOrdenar.setText("Crear orden");
@@ -185,7 +195,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Ingrese el nombre del producto:");
         jPanel2.add(jLabel8);
-        jLabel8.setBounds(450, 60, 199, 17);
+        jLabel8.setBounds(450, 60, 204, 18);
 
         txtProd.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -193,7 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtProd);
-        txtProd.setBounds(450, 80, 200, 23);
+        txtProd.setBounds(450, 80, 200, 22);
 
         listResultado.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(listResultado);
@@ -209,7 +219,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnSeleccionarProd);
-        btnSeleccionarProd.setBounds(650, 210, 40, 23);
+        btnSeleccionarProd.setBounds(650, 210, 40, 22);
 
         tblProds.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -251,15 +261,34 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(192, 195, 216));
 
+        btnReportes.setBackground(new java.awt.Color(153, 153, 255));
+        btnReportes.setForeground(new java.awt.Color(255, 255, 255));
+        btnReportes.setText("Generar Reportes");
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 965, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 455, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         materialTabbed1.addTab("Reportes", jPanel4);
@@ -309,6 +338,35 @@ public class MainFrame extends javax.swing.JFrame {
         }
         listResultado.setModel(modelo); 
     }//GEN-LAST:event_txtProdKeyReleased
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        Document document = new Document();
+        try{
+            String ruta = System.getProperty("user.home");
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(ruta + "/Desktop/Reporte.pdf"));
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            document.open();    
+            
+            Paragraph titulo = new Paragraph();
+            titulo.add("Factura de Orden");
+            titulo.setAlignment(1);
+            
+            PdfPTable tabla = new PdfPTable(3); // columna
+            tabla.addCell("Columna1");
+            tabla.addCell("Columna2");
+            tabla.addCell("Columna3");
+            document.add(titulo);
+            document.add(Chunk.NEWLINE);
+            document.addTitle("hola");
+            document.add(tabla);            
+            document.close();       
+            JOptionPane.showMessageDialog(null, "Reporte Creado.");
+        }catch(DocumentException E){
+        }
+    }//GEN-LAST:event_btnReportesActionPerformed
 
     
     public static void main(String args[]) {
@@ -369,6 +427,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOrdenar;
+    private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnSeleccionarProd;
     private javax.swing.JFormattedTextField ftxtPeso;
     private javax.swing.JLabel jLabel1;
