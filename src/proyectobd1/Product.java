@@ -10,7 +10,9 @@ public class Product {
 
     public Product() {}
 
-    public Product(int idProd, String name, int idSupplier, int idCateg, String quantity, double unitPrice, int stock, int order, int reorder, boolean discontinued) {
+    public Product(int idProd, String name, int idSupplier,
+            int idCateg, String quantity, double unitPrice,
+            int stock, int order, int reorder, boolean discontinued) {
         this.idProd = idProd;
         this.idSupplier = idSupplier;
         this.idCateg = idCateg;

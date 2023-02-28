@@ -24,17 +24,30 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.text.DecimalFormat;
 
 public class MainFrame extends javax.swing.JFrame {
+    Random r = new Random();
     MariaDBConnection c = null;
     ArrayList<Product> productos = new ArrayList();
+    ArrayList<Customer> clientes  = new ArrayList();
+    ArrayList<Employee> empleados  = new ArrayList();
+    ArrayList<Order> orders  = new ArrayList();
+    ArrayList<OrderDetails> details  = new ArrayList();
     
     
     public MainFrame() {
-        cargarDatos();
         initComponents(); 
+        
+        // Configurar Frame
+        this.setSize(1390, 800);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Proyecto 1 - Teoría de Bases de Datos I");
+        
+        // Configurar TabbedPane
+        limpiarTab1();
+        cargarDatos();
     }
 
     @SuppressWarnings("unchecked")
@@ -44,11 +57,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
         popupTabla = new javax.swing.JPopupMenu();
-        popElim = new javax.swing.JMenuItem();
+        popEditarCant = new javax.swing.JMenuItem();
+        popEditarDesc = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        popEditar = new javax.swing.JMenuItem();
+        popElim = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblNice = new javax.swing.JLabel();
         materialTabbed1 = new proyectobd1.MaterialTabbed();
         jPanel2 = new javax.swing.JPanel();
         txtCliente = new javax.swing.JTextField();
@@ -56,13 +70,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtEmp = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtEnvio = new javax.swing.JTextField();
+        txtAgencia = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         ftxtPeso = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         txtBarco = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        txtDir = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtCiudad = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -75,20 +88,58 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtProd = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        listResultado = new javax.swing.JList<>();
+        listProds = new javax.swing.JList<>();
         btnSeleccionarProd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProds = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDir = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listClientes = new javax.swing.JList<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        listEmps = new javax.swing.JList<>();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        listAgencias = new javax.swing.JList<>();
+        btnCliente = new javax.swing.JButton();
+        lblCliente = new javax.swing.JLabel();
+        btnEmp = new javax.swing.JButton();
+        lblEmp = new javax.swing.JLabel();
+        btnAgencia = new javax.swing.JButton();
+        lblAgencia = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         obtenerTablaButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnReportes = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
 
         jLabel11.setText("Ciudad del envío");
+
+        popEditarCant.setText("Modificar cantidad");
+        popEditarCant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popEditarCantActionPerformed(evt);
+            }
+        });
+        popupTabla.add(popEditarCant);
+
+        popEditarDesc.setText("Modificar descuento");
+        popEditarDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popEditarDescActionPerformed(evt);
+            }
+        });
+        popupTabla.add(popEditarDesc);
+        popupTabla.add(jSeparator1);
 
         popElim.setText("Eliminar producto");
         popElim.addActionListener(new java.awt.event.ActionListener() {
@@ -97,113 +148,120 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         popupTabla.add(popElim);
-        popupTabla.add(jSeparator1);
-
-        popEditar.setText("Modificar cantidad");
-        popEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popEditarActionPerformed(evt);
-            }
-        });
-        popupTabla.add(popEditar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/nice copia.png"))); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 20, 140, 140));
+        lblNice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/nice copia.png"))); // NOI18N
+        jPanel1.add(lblNice, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, -40, 120, 250));
 
-        materialTabbed1.setForeground(new java.awt.Color(255, 255, 255));
+        materialTabbed1.setForeground(new java.awt.Color(137, 101, 255));
         materialTabbed1.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(192, 195, 216));
         jPanel2.setLayout(null);
+
+        txtCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtClienteKeyReleased(evt);
+            }
+        });
         jPanel2.add(txtCliente);
-        txtCliente.setBounds(50, 80, 140, 23);
+        txtCliente.setBounds(50, 80, 170, 23);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setText("Nombre del cliente");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(50, 60, 116, 17);
+        jLabel1.setBounds(50, 60, 150, 17);
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel4.setForeground(java.awt.Color.white);
         jLabel4.setText("Nombre del empleado");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(50, 120, 136, 17);
+        jLabel4.setBounds(250, 60, 160, 17);
+
+        txtEmp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEmpKeyReleased(evt);
+            }
+        });
         jPanel2.add(txtEmp);
-        txtEmp.setBounds(50, 140, 140, 23);
+        txtEmp.setBounds(250, 80, 170, 23);
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel5.setForeground(java.awt.Color.white);
-        jLabel5.setText("Nombre del envío");
+        jLabel5.setText("Nombre de la agencia");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(50, 180, 109, 17);
-        jPanel2.add(txtEnvio);
-        txtEnvio.setBounds(50, 200, 140, 23);
+        jLabel5.setBounds(450, 60, 170, 17);
+
+        txtAgencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAgenciaKeyReleased(evt);
+            }
+        });
+        jPanel2.add(txtAgencia);
+        txtAgencia.setBounds(450, 80, 170, 23);
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel6.setForeground(java.awt.Color.white);
         jLabel6.setText("Peso");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(50, 240, 31, 17);
+        jLabel6.setBounds(1040, 60, 31, 17);
 
         ftxtPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.##"))));
         jPanel2.add(ftxtPeso);
-        ftxtPeso.setBounds(50, 260, 140, 23);
+        ftxtPeso.setBounds(1040, 80, 140, 23);
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel7.setForeground(java.awt.Color.white);
         jLabel7.setText("Nombre del barco");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(50, 300, 111, 17);
+        jLabel7.setBounds(860, 120, 111, 17);
         jPanel2.add(txtBarco);
-        txtBarco.setBounds(50, 320, 140, 23);
+        txtBarco.setBounds(860, 140, 140, 23);
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel9.setForeground(java.awt.Color.white);
         jLabel9.setText("Dirección del envío");
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(250, 60, 117, 17);
-        jPanel2.add(txtDir);
-        txtDir.setBounds(250, 80, 140, 23);
+        jLabel9.setBounds(680, 180, 220, 17);
 
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel10.setForeground(java.awt.Color.white);
         jLabel10.setText("Ciudad del envío");
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(250, 120, 103, 17);
+        jLabel10.setBounds(680, 120, 103, 17);
         jPanel2.add(txtCiudad);
-        txtCiudad.setBounds(250, 140, 140, 23);
+        txtCiudad.setBounds(680, 140, 140, 23);
 
         jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel12.setForeground(java.awt.Color.white);
         jLabel12.setText("Región del envío");
         jPanel2.add(jLabel12);
-        jLabel12.setBounds(250, 180, 102, 17);
+        jLabel12.setBounds(860, 60, 102, 17);
         jPanel2.add(txtRegion);
-        txtRegion.setBounds(250, 200, 140, 23);
+        txtRegion.setBounds(860, 80, 140, 23);
 
         jLabel13.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel13.setForeground(java.awt.Color.white);
-        jLabel13.setText("Código postal del envío");
+        jLabel13.setText("Código postal");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(250, 240, 146, 17);
+        jLabel13.setBounds(1040, 120, 87, 17);
 
         txtPostal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
         jPanel2.add(txtPostal);
-        txtPostal.setBounds(250, 260, 140, 23);
+        txtPostal.setBounds(1040, 140, 140, 23);
 
         jLabel14.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel14.setForeground(java.awt.Color.white);
         jLabel14.setText("País de envío");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(250, 300, 82, 17);
+        jLabel14.setBounds(680, 60, 82, 17);
         jPanel2.add(txtPais);
-        txtPais.setBounds(250, 320, 140, 23);
+        txtPais.setBounds(680, 80, 140, 23);
 
         btnOrdenar.setBackground(new java.awt.Color(153, 153, 255));
         btnOrdenar.setText("Crear orden");
@@ -213,13 +271,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnOrdenar);
-        btnOrdenar.setBounds(710, 350, 200, 30);
+        btnOrdenar.setBounds(850, 470, 110, 30);
 
         jLabel8.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Productos encontrados");
         jPanel2.add(jLabel8);
-        jLabel8.setBounds(450, 110, 199, 30);
+        jLabel8.setBounds(50, 320, 240, 30);
 
         txtProd.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -227,15 +286,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtProd);
-        txtProd.setBounds(450, 80, 200, 30);
+        txtProd.setBounds(50, 290, 240, 23);
 
-        listResultado.setModel(new DefaultListModel());
-        jScrollPane3.setViewportView(listResultado);
+        listProds.setModel(new DefaultListModel());
+        jScrollPane3.setViewportView(listProds);
 
         jPanel2.add(jScrollPane3);
-        jScrollPane3.setBounds(450, 140, 200, 200);
+        jScrollPane3.setBounds(50, 350, 240, 220);
 
         btnSeleccionarProd.setBackground(new java.awt.Color(153, 153, 255));
+        btnSeleccionarProd.setForeground(new java.awt.Color(255, 255, 255));
         btnSeleccionarProd.setText("➜");
         btnSeleccionarProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,18 +303,18 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnSeleccionarProd);
-        btnSeleccionarProd.setBounds(660, 220, 40, 23);
+        btnSeleccionarProd.setBounds(310, 450, 40, 23);
 
         tblProds.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Producto", "Cantidad"
+                "Producto", "Cantidad", "Descuento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -269,19 +329,117 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblProds);
 
         jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(710, 140, 200, 200);
+        jScrollPane1.setBounds(370, 350, 450, 220);
 
         jLabel15.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Ingrese el nombre del producto:");
+        jLabel15.setText("Nombre del producto");
         jPanel2.add(jLabel15);
-        jLabel15.setBounds(450, 60, 199, 17);
+        jLabel15.setBounds(50, 260, 180, 30);
 
         jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Productos agregados a la orden");
         jPanel2.add(jLabel16);
-        jLabel16.setBounds(710, 110, 199, 30);
+        jLabel16.setBounds(370, 320, 450, 30);
+
+        txtDir.setColumns(20);
+        txtDir.setRows(5);
+        jScrollPane2.setViewportView(txtDir);
+
+        jPanel2.add(jScrollPane2);
+        jScrollPane2.setBounds(680, 200, 500, 50);
+
+        listClientes.setModel(new DefaultListModel());
+        listClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                listClientesMouseReleased(evt);
+            }
+        });
+        jScrollPane4.setViewportView(listClientes);
+
+        jPanel2.add(jScrollPane4);
+        jScrollPane4.setBounds(50, 120, 170, 80);
+
+        listEmps.setModel(new DefaultListModel());
+        listEmps.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                listEmpsMouseReleased(evt);
+            }
+        });
+        jScrollPane5.setViewportView(listEmps);
+
+        jPanel2.add(jScrollPane5);
+        jScrollPane5.setBounds(250, 120, 170, 80);
+
+        listAgencias.setModel(new DefaultListModel());
+        listAgencias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                listAgenciasMouseReleased(evt);
+            }
+        });
+        jScrollPane6.setViewportView(listAgencias);
+
+        jPanel2.add(jScrollPane6);
+        jScrollPane6.setBounds(450, 120, 170, 80);
+
+        btnCliente.setBackground(new java.awt.Color(153, 153, 255));
+        btnCliente.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnCliente.setForeground(new java.awt.Color(255, 255, 255));
+        btnCliente.setText("Seleccionar");
+        btnCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCliente);
+        btnCliente.setBounds(50, 210, 170, 40);
+
+        lblCliente.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        lblCliente.setForeground(new java.awt.Color(255, 255, 255));
+        lblCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        jPanel2.add(lblCliente);
+        lblCliente.setBounds(60, 220, 150, 20);
+
+        btnEmp.setBackground(new java.awt.Color(153, 153, 255));
+        btnEmp.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnEmp.setForeground(new java.awt.Color(255, 255, 255));
+        btnEmp.setText("Seleccionar");
+        btnEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmpActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnEmp);
+        btnEmp.setBounds(250, 210, 170, 40);
+
+        lblEmp.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        lblEmp.setForeground(new java.awt.Color(255, 255, 255));
+        lblEmp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEmp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        jPanel2.add(lblEmp);
+        lblEmp.setBounds(260, 220, 150, 20);
+
+        btnAgencia.setBackground(new java.awt.Color(153, 153, 255));
+        btnAgencia.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnAgencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgencia.setText("Seleccionar");
+        btnAgencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgenciaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnAgencia);
+        btnAgencia.setBounds(450, 210, 170, 40);
+
+        lblAgencia.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        lblAgencia.setForeground(new java.awt.Color(255, 255, 255));
+        lblAgencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAgencia.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        jPanel2.add(lblAgencia);
+        lblAgencia.setBounds(460, 220, 150, 20);
 
         materialTabbed1.addTab("Gestión de Órdenes", jPanel2);
 
@@ -315,32 +473,112 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 965, Short.MAX_VALUE)
+            .addGap(0, 1245, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 527, Short.MAX_VALUE)
                     .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 528, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 455, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 287, Short.MAX_VALUE)
                     .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 288, Short.MAX_VALUE)))
         );
 
         materialTabbed1.addTab("Reportes", jPanel4);
 
-        jPanel1.add(materialTabbed1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 970, 500));
+        jPanel5.setBackground(new java.awt.Color(192, 195, 216));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/gradPinkAzul copia.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -10, -1, 610));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(jTable1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane8.setViewportView(jTable2);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane9.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(103, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(135, Short.MAX_VALUE))
+        );
+
+        materialTabbed1.addTab("Tabla de Productos", jPanel5);
+
+        jPanel1.add(materialTabbed1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 1250, 670));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/gradPinkMorado.jpg"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -20, 1440, 820));
         jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 590));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1420, 800));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -351,24 +589,31 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_obtenerTablaButtonMouseClicked
 
     private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
-        DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
-        DefaultListModel lista = (DefaultListModel)listResultado.getModel();
-        lista.get(listResultado.getSelectedIndex());
-        
-        String prod = lista.get(listResultado.getSelectedIndex()).toString();
-        boolean existe = false;
-        
-        for (int i = 0; i < tabla.getRowCount() && !existe; i++)
-            existe = tabla.getValueAt(i, 0).toString().equals(prod);
-        
-        if (!existe) {
-            String[] fila = {prod, "1"};
-            tabla.addRow(fila);
-            tblProds.setModel(tabla);
+        if (listProds.getSelectedIndex() >= 0) {
+            DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
+            DefaultListModel lista = (DefaultListModel)listProds.getModel();
+            lista.get(listProds.getSelectedIndex());
+
+            String prod = lista.get(listProds.getSelectedIndex()).toString();
+            boolean existe = false;
+
+            for (int i = 0; i < tabla.getRowCount() && !existe; i++)
+                existe = tabla.getValueAt(i, 0).toString().equals(prod);
+
+            if (!existe) {
+                double desc = r.nextDouble() * 0.5;
+                DecimalFormat df = new DecimalFormat("#.##");
+                String descRounded = df.format(desc);
+                Object[] fila = {prod, "1", descRounded};
+                tabla.addRow(fila);
+                tblProds.setModel(tabla);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "El producto ya fue agregado a la orden.", "", 1);
+            }
         }
-        else {
-            JOptionPane.showMessageDialog(this, "El producto ya fue agregado a la orden.", "", 1);
-        }
+        else
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un producto.", "", 1);
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
 
     private void txtProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdKeyReleased
@@ -390,7 +635,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
-        listResultado.setModel(modelo); 
+        listProds.setModel(modelo); 
     }//GEN-LAST:event_txtProdKeyReleased
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
@@ -437,7 +682,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_popElimActionPerformed
 
-    private void popEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarActionPerformed
+    private void popEditarCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarCantActionPerformed
         DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
         String cant = JOptionPane.showInputDialog(this, "Ingrese la nueva cantidad");
         try {
@@ -448,7 +693,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         } catch (Exception e) {}
         JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.", "", 1);
-    }//GEN-LAST:event_popEditarActionPerformed
+    }//GEN-LAST:event_popEditarCantActionPerformed
 
     private void tblProdsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdsMouseClicked
         if (evt.isMetaDown())
@@ -456,9 +701,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tblProdsMouseClicked
 
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
-        if (txtValid(txtBarco) && txtValid(txtCiudad) && txtValid(txtCliente)
-                && txtValid(txtDir) && txtValid(txtEmp) && txtValid(txtEnvio)
-                && txtValid(txtPais) && txtValid(txtPostal) && txtValid(txtRegion)) {
+        if (txtValid(txtBarco.getText()) && txtValid(txtCiudad.getText()) && txtValid(txtCliente.getText())
+                && txtValid(txtDir.getText()) && txtValid(txtEmp.getText()) && txtValid(txtAgencia.getText())
+                && txtValid(txtPais.getText()) && txtValid(txtPostal.getText()) && txtValid(txtRegion.getText())) {
             if (tblProds.getRowCount() > 0) {
                 ArrayList<Product> prodsOrden = new ArrayList();
                 for (int i = 0; i < tblProds.getRowCount(); i++)
@@ -466,7 +711,7 @@ public class MainFrame extends javax.swing.JFrame {
                         if (p.name.equals(tblProds.getValueAt(i, 0)))
                             prodsOrden.add(p);
                 
-// Crear order y order details para guardar los ids de productos y cantidades de un solo
+                // Crear order y order details para guardar los ids de productos y cantidades de un solo
             }
             else
                 JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.", "", 1);
@@ -474,6 +719,124 @@ public class MainFrame extends javax.swing.JFrame {
         else 
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 1);
     }//GEN-LAST:event_btnOrdenarActionPerformed
+
+    private void txtClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClienteKeyReleased
+        DefaultListModel modelo = new DefaultListModel();
+        if (!txtCliente.getText().isBlank()) {
+            c = new MariaDBConnection();
+            Statement st = null;
+            ResultSet rs = null;
+            
+            String query = "select * from customers c where c.ContactName regexp '^" +txtCliente.getText()+ "'";
+            try {
+                st = c.connection.createStatement();
+                rs = st.executeQuery(query);
+                while(rs.next()){
+                    modelo.addElement(rs.getString("ContactName"));
+                }
+                c.connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        listClientes.setModel(modelo);
+    }//GEN-LAST:event_txtClienteKeyReleased
+
+    private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
+        lblCliente.setText(listClientes.getSelectedValue());
+        lblCliente.setVisible(true);
+        btnCliente.setVisible(false);
+        txtCliente.setText("");
+        listClientes.setModel(new DefaultListModel());
+    }//GEN-LAST:event_btnClienteActionPerformed
+
+    private void btnEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpActionPerformed
+        lblEmp.setText(listEmps.getSelectedValue());
+        lblEmp.setVisible(true);
+        btnEmp.setVisible(false);
+        txtEmp.setText("");
+        listEmps.setModel(new DefaultListModel());
+    }//GEN-LAST:event_btnEmpActionPerformed
+
+    private void btnAgenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgenciaActionPerformed
+        lblAgencia.setText(listAgencias.getSelectedValue());
+        lblAgencia.setVisible(true);
+        btnAgencia.setVisible(false);
+        txtAgencia.setText("");
+        listAgencias.setModel(new DefaultListModel());
+    }//GEN-LAST:event_btnAgenciaActionPerformed
+
+    private void listClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listClientesMouseReleased
+        if (listClientes.getSelectedIndex() >= 0)
+            btnCliente.setVisible(true);
+    }//GEN-LAST:event_listClientesMouseReleased
+
+    private void txtEmpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmpKeyReleased
+        DefaultListModel modelo = new DefaultListModel();
+        if (!txtEmp.getText().isBlank()) {
+            c = new MariaDBConnection();
+            Statement st = null;
+            ResultSet rs = null;
+            
+            String query = "select * from employees e where e.FirstName regexp '^" +txtEmp.getText()+ "'";
+            try {
+                st = c.connection.createStatement();
+                rs = st.executeQuery(query);
+                while(rs.next()){
+                    modelo.addElement(rs.getString("FirstName")+" "+rs.getString("LastName"));
+                }
+                c.connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        listEmps.setModel(modelo);
+    }//GEN-LAST:event_txtEmpKeyReleased
+
+    private void listEmpsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listEmpsMouseReleased
+        if (listEmps.getSelectedIndex() >= 0)
+            btnEmp.setVisible(true);
+    }//GEN-LAST:event_listEmpsMouseReleased
+
+    private void txtAgenciaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAgenciaKeyReleased
+        DefaultListModel modelo = new DefaultListModel();
+        if (!txtAgencia.getText().isBlank()) {
+            c = new MariaDBConnection();
+            Statement st = null;
+            ResultSet rs = null;
+            
+            String query = "select * from shippers s where s.CompanyName regexp '^" +txtAgencia.getText()+ "'";
+            try {
+                st = c.connection.createStatement();
+                rs = st.executeQuery(query);
+                while(rs.next()){
+                    modelo.addElement(rs.getString("CompanyName"));
+                }
+                c.connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        listAgencias.setModel(modelo);
+    }//GEN-LAST:event_txtAgenciaKeyReleased
+
+    private void listAgenciasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listAgenciasMouseReleased
+        if (listAgencias.getSelectedIndex() >= 0)
+            btnAgencia.setVisible(true);
+    }//GEN-LAST:event_listAgenciasMouseReleased
+
+    private void popEditarDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarDescActionPerformed
+        DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
+        String desc = JOptionPane.showInputDialog(this, "Ingrese el nuevo descuento\n(Decimal entre 0 y 1)");
+        try {
+            if (Double.parseDouble(desc) > 0 && Double.parseDouble(desc) < 1) {
+                tabla.setValueAt(desc, tblProds.getSelectedRow(), 2);
+                tblProds.setModel(tabla);
+                return;
+            }
+        } catch (Exception e) {}
+        JOptionPane.showMessageDialog(this, "Ingrese un descuento válido.", "", 1);
+    }//GEN-LAST:event_popEditarDescActionPerformed
 
     
     public static void main(String args[]) {
@@ -509,7 +872,22 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     
+    public void limpiarTab1() {
+        resetLblBtn(lblCliente, btnCliente);
+        resetLblBtn(lblEmp, btnEmp);
+        resetLblBtn(lblAgencia, btnAgencia);
+    }
+    
+    public void resetLblBtn(JLabel lbl, JButton btn) {
+        lbl.setText("");
+        lbl.setVisible(false);
+        btn.setVisible(false);
+    }
+    
     public void cargarDatos() {
+        
+        
+        
         c = new MariaDBConnection();
         Statement st = null;
         ResultSet rs = null;
@@ -532,11 +910,14 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
-    public boolean txtValid(JTextField txt) {
-        return (!txt.getText().isBlank() && !txt.getText().isEmpty());
+    public boolean txtValid(String txt) {
+        return (!txt.isBlank() && !txt.isEmpty());
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgencia;
+    private javax.swing.JButton btnCliente;
+    private javax.swing.JButton btnEmp;
     private javax.swing.JButton btnOrdenar;
     private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnSeleccionarProd;
@@ -550,7 +931,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -561,24 +941,43 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JList<String> listResultado;
+    private javax.swing.JLabel lblAgencia;
+    private javax.swing.JLabel lblCliente;
+    private javax.swing.JLabel lblEmp;
+    private javax.swing.JLabel lblNice;
+    private javax.swing.JList<String> listAgencias;
+    private javax.swing.JList<String> listClientes;
+    private javax.swing.JList<String> listEmps;
+    private javax.swing.JList<String> listProds;
     private proyectobd1.MaterialTabbed materialTabbed1;
     private javax.swing.JButton obtenerTablaButton;
-    private javax.swing.JMenuItem popEditar;
+    private javax.swing.JMenuItem popEditarCant;
+    private javax.swing.JMenuItem popEditarDesc;
     private javax.swing.JMenuItem popElim;
     private javax.swing.JPopupMenu popupTabla;
     private javax.swing.JTable tblProds;
+    private javax.swing.JTextField txtAgencia;
     private javax.swing.JTextField txtBarco;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtCliente;
-    private javax.swing.JTextField txtDir;
+    private javax.swing.JTextArea txtDir;
     private javax.swing.JTextField txtEmp;
-    private javax.swing.JTextField txtEnvio;
     private javax.swing.JTextField txtPais;
     private javax.swing.JFormattedTextField txtPostal;
     private javax.swing.JTextField txtProd;
