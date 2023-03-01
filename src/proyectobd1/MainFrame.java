@@ -1,5 +1,6 @@
 package proyectobd1;
 
+import com.itextpdf.text.BaseColor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultListModel;
@@ -19,6 +20,10 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.logging.Level;
@@ -35,6 +40,7 @@ public class MainFrame extends javax.swing.JFrame {
     ArrayList<Shipper> shippers = new ArrayList();
     ArrayList<Order> orders = new ArrayList();
     ArrayList<OrderDetails> details = new ArrayList();
+    ArrayList<Integer> idOrders = new ArrayList();
 
     public MainFrame() {
         initComponents();
@@ -1115,6 +1121,8 @@ public class MainFrame extends javax.swing.JFrame {
         lbl.setVisible(false);
         btn.setVisible(false);
     }
+    
+    
 
     public void cargarProds() {
         c = new MariaDBConnection();
@@ -1295,6 +1303,155 @@ public class MainFrame extends javax.swing.JFrame {
             modelito.addRow(ob);
         }
         tblProds.setModel(modelito);
+    }
+    
+     public void generarFactura(){
+        Document document = new Document(PageSize.LETTER, 5,5,5,5);
+        try{
+            String ruta = System.getProperty("user.home");
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(ruta + "/Desktop/Reporte.pdf"));
+            } catch (FileNotFoundException ex) {
+            }
+            document.open();    
+            
+            Paragraph titulo = new Paragraph();
+            titulo.add("Factura de Orden");
+            titulo.setAlignment(1);
+                        document.add(titulo);
+            document.add(Chunk.NEWLINE);            
+            
+            PdfPTable tabla = new PdfPTable(3); // columna
+            // TITULO DE TABLA
+            PdfPCell cell = new PdfPCell (new Paragraph ("Orden"));
+            cell.setColspan (3);
+            cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+            cell.setBackgroundColor(new BaseColor(116, 144, 198)); 
+            cell.setPadding (7.0f);
+            tabla.addCell(cell);
+            tabla.setSpacingAfter(10);
+            
+            //BASE COLORS
+            BaseColor color1 = new BaseColor(138, 171, 236); 
+            BaseColor color2 = new BaseColor(194, 210, 252);
+            
+            // ORDEN SUBTITULOS TABLA 1
+            PdfPCell orden = new PdfPCell (new Paragraph ("OrderID"));
+            orden.setBackgroundColor(color1);
+            tabla.addCell(orden);
+            PdfPCell customerID = new PdfPCell (new Paragraph ("CustomerID"));
+            customerID.setBackgroundColor(color1);
+            tabla.addCell(customerID);
+            PdfPCell employeeID = new PdfPCell (new Paragraph ("EmployeeID"));
+            employeeID.setBackgroundColor(color1);            
+            tabla.addCell(employeeID);
+            
+            // ORDEN TABLA 1
+            PdfPCell orde = new PdfPCell (new Paragraph ("1"));
+            orde.setBackgroundColor(color2);
+            tabla.addCell(orde);
+            PdfPCell customeID = new PdfPCell (new Paragraph ("2"));
+            customeID.setBackgroundColor(color2);
+            tabla.addCell(customeID);
+            PdfPCell employeID = new PdfPCell (new Paragraph ("3"));
+            employeID.setBackgroundColor(color2);            
+            tabla.addCell(employeID);
+            
+            document.add(tabla);
+            
+            //tabla 2
+            PdfPTable tabla2 = new PdfPTable(3); // columna
+            tabla2.setSpacingAfter(10);
+            
+            // TABLA 2
+            ArrayList<String> campos = new ArrayList<String>(Arrays.asList("OrderDate", "Required Date", "Ship Via (ID)", "1", "2", "3"));
+            PdfPTable table = generarTablaPdf(campos.size()/2, campos, color1, color2); // columna
+            document.add(table);
+            
+            //tabla 3
+            PdfPTable tabla3 = new PdfPTable(3); // columna
+            tabla3.setSpacingAfter(10);
+            
+            // ORDEN SUBTITULOS TABLA 2
+            campos = new ArrayList<String>(Arrays.asList("Freight", "Ship Name", "Ship Address", "1", "2", "3"));
+            table = generarTablaPdf(campos.size()/2, campos, color1, color2); // columna
+            document.add(table);
+            
+            //tabla 4
+            campos = new ArrayList<String>(Arrays.asList("Ship City", "Ship Region", "1", "2"));
+            table = generarTablaPdf(campos.size()/2, campos, color1, color2); // columna
+            document.add(table);
+            
+            document.close();       
+            JOptionPane.showMessageDialog(null, "Reporte Creado.");
+        }catch(DocumentException E){
+        }
+    }
+    
+    public PdfPTable generarTablaPdf(int nColumnas, ArrayList<String> campos, BaseColor color1, BaseColor color2){
+        PdfPTable table = new PdfPTable(nColumnas);
+        Phrase frase = new Phrase(campos.get(0));
+        PdfPCell celda = new PdfPCell(frase);
+        celda.setBackgroundColor(color1);
+        table.addCell(celda);
+        for(int i = 1; i < (nColumnas*2); i++){
+            frase = new Phrase(campos.get(i));
+            System.out.println(frase.toString());
+            celda = new PdfPCell(frase);
+            if(i < (nColumnas*2)/2){
+                celda.setBackgroundColor(color1);
+            }else{
+                celda.setBackgroundColor(color2);
+            }
+            table.addCell(celda);            
+        }
+        table.setSpacingAfter(10);
+        return table;
+    }
+    
+    public void cargarOrders(){
+        c = new MariaDBConnection();
+        Statement st = null;
+        ResultSet rs = null;
+
+        // Cargar productos
+        String query = "select * from Orders";
+        try {
+            st = c.connection.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()) {
+                orders.add(new Order(rs.getInt("OrderID"), rs.getString("CustomerID"),
+                        rs.getInt("EmployeeID"), rs.getDate("OrderDate"),
+                        rs.getDate("RequiredDate"), rs.getDate("ShippedDate"),
+                        rs.getInt("ShipVia"), rs.getDouble("Freight"),
+                        rs.getString("ShipName"), rs.getString("ShipAddress"),
+                        rs.getString("ShipCity"), rs.getString("ShipRegion"),
+                        rs.getString("ShipPostalCode"), rs.getString("ShipCountry")));
+            }
+            c.connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void cargarIDOrders(){
+        c = new MariaDBConnection();
+        Statement st = null;
+        ResultSet rs = null;
+
+        // Cargar productos
+        String query = "select * from Orders";
+        try {
+            st = c.connection.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()) {
+                idOrders.add(rs.getInt("OrderID"));
+            }
+            c.connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        Collections.sort(idOrders);
     }
 
     public void CrearProductos() {

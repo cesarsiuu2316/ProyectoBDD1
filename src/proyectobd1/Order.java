@@ -4,28 +4,33 @@ import java.util.Date;
 
 
 public class Order {
-    private int idOrden, idCliente, idEmpleado, idShipper;
+private int idOrden, idEmpleado, idShipVia;
     private double peso;
-    private String shipName, shipAddress, region, ciudad, pais, codPostal;
+    private String idCliente, shipName, shipAddress, shipRegion,
+            shipCity, shipCountry, shipCodPostal;
     private Date dateOrden, dateReq, dateEnvio;
-
+    
     public Order() {}
-
-    public Order(int idOrden, int idCliente, int idEmpleado, int idShipper, double peso, String shipName, String shipAddress, String region, String ciudad, String pais, String codPostal, Date dateOrden, Date dateReq, Date dateEnvio) {
+    
+    public Order(int idOrden, String idCliente, int idEmpleado,
+            Date dateOrden, Date dateReq, Date dateEnvio,
+            int idShipVia, double peso, String shipName,
+            String shipAddress, String shipCity, String shipRegion,
+            String codPostal, String shipCountry){
         this.idOrden = idOrden;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
-        this.idShipper = idShipper;
-        this.peso = peso;
-        this.shipName = shipName;
-        this.shipAddress = shipAddress;
-        this.region = region;
-        this.ciudad = ciudad;
-        this.pais = pais;
-        this.codPostal = codPostal;
         this.dateOrden = dateOrden;
         this.dateReq = dateReq;
         this.dateEnvio = dateEnvio;
+        this.idShipVia = idShipVia;
+        this.peso = peso;
+        this.shipName = shipName;
+        this.shipAddress = shipAddress;
+        this.shipRegion = shipRegion;
+        this.shipCity = shipCity;
+        this.shipCodPostal = codPostal;
+        this.shipCountry = shipCountry;        
     }
 
     public int getIdOrden() {
@@ -36,11 +41,11 @@ public class Order {
         this.idOrden = idOrden;
     }
 
-    public int getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(String idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -52,12 +57,12 @@ public class Order {
         this.idEmpleado = idEmpleado;
     }
 
-    public int getIdShipper() {
-        return idShipper;
+    public int getIdShipVia() {
+        return idShipVia;
     }
 
-    public void setIdShipper(int idShipper) {
-        this.idShipper = idShipper;
+    public void setIdShipVia(int idShipVia) {
+        this.idShipVia = idShipVia;
     }
 
     public double getPeso() {
@@ -84,36 +89,36 @@ public class Order {
         this.shipAddress = shipAddress;
     }
 
-    public String getRegion() {
-        return region;
+    public String getShipRegion() {
+        return shipRegion;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setShipRegion(String shipRegion) {
+        this.shipRegion = shipRegion;
     }
 
-    public String getCiudad() {
-        return ciudad;
+    public String getShipCity() {
+        return shipCity;
     }
 
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+    public void setShipCity(String shipCity) {
+        this.shipCity = shipCity;
     }
 
-    public String getPais() {
-        return pais;
+    public String getShipCountry() {
+        return shipCountry;
     }
 
-    public void setPais(String pais) {
-        this.pais = pais;
+    public void setShipCountry(String shipCountry) {
+        this.shipCountry = shipCountry;
     }
 
-    public String getCodPostal() {
-        return codPostal;
+    public String getShipCodPostal() {
+        return shipCodPostal;
     }
 
-    public void setCodPostal(String codPostal) {
-        this.codPostal = codPostal;
+    public void setShipCodPostal(String shipCodPostal) {
+        this.shipCodPostal = shipCodPostal;
     }
 
     public Date getDateOrden() {
@@ -139,6 +144,10 @@ public class Order {
     public void setDateEnvio(Date dateEnvio) {
         this.dateEnvio = dateEnvio;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Order{" + "idOrden=" + idOrden + ", idEmpleado=" + idEmpleado + ", idShipVia=" + idShipVia + ", peso=" + peso + ", idCliente=" + idCliente + ", shipName=" + shipName + ", shipAddress=" + shipAddress + ", shipRegion=" + shipRegion + ", shipCity=" + shipCity + ", shipCountry=" + shipCountry + ", shipCodPostal=" + shipCodPostal + ", dateOrden=" + dateOrden + ", dateReq=" + dateReq + ", dateEnvio=" + dateEnvio + '}';
+    }
     
 }
