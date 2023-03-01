@@ -1,4 +1,3 @@
-
 package proyectobd1;
 
 
@@ -6,13 +5,11 @@ public class Product {
     int idProd, idSupplier, idCateg, stock, order, reorder;
     double unitPrice;
     String name, quantity;
-    boolean discontinued;
+    int discontinued;
 
     public Product() {}
 
-    public Product(int idProd, String name, int idSupplier,
-            int idCateg, String quantity, double unitPrice,
-            int stock, int order, int reorder, boolean discontinued) {
+    public Product(int idProd, String name, int idSupplier, int idCateg, String quantity, double unitPrice, int stock, int order, int reorder, int discontinued) {
         this.idProd = idProd;
         this.idSupplier = idSupplier;
         this.idCateg = idCateg;
@@ -76,6 +73,8 @@ public class Product {
     public double getUnitPrice() {
         return unitPrice;
     }
+    
+
 
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
@@ -98,10 +97,14 @@ public class Product {
     }
 
     public boolean isDiscontinued() {
-        return discontinued;
+        if (discontinued==0) {
+            return false;
+        }else{
+            return true;
+        }
     }
 
-    public void setDiscontinued(boolean discontinued) {
+    public void setDiscontinued(int discontinued) {
         this.discontinued = discontinued;
     }
     

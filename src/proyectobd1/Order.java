@@ -1,37 +1,31 @@
 
 package proyectobd1;
-
 import java.util.Date;
 
 
-public class Order implements Comparable<Order> {
-    private int idOrden, idCliente, idEmpleado, idShipVia;
+public class Order {
+    private int idOrden, idCliente, idEmpleado, idShipper;
     private double peso;
-    private String shipName, shipAddress, shipRegion,
-            shipCity, shipCountry, shipCodPostal;
+    private String shipName, shipAddress, region, ciudad, pais, codPostal;
     private Date dateOrden, dateReq, dateEnvio;
-    
+
     public Order() {}
-    
-    public Order(int idOrden, int idCliente, int idEmpleado,
-            Date dateOrden, Date dateReq, Date dateEnvio,
-            int idShipVia, double peso, String shipName,
-            String shipAddress, String shipCity, String shipRegion,
-            String codPostal, String shipCountry){
+
+    public Order(int idOrden, int idCliente, int idEmpleado, int idShipper, double peso, String shipName, String shipAddress, String region, String ciudad, String pais, String codPostal, Date dateOrden, Date dateReq, Date dateEnvio) {
         this.idOrden = idOrden;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
-        this.dateOrden = dateOrden;
-        this.dateReq = dateReq;
-        this.dateEnvio = dateEnvio;
-        this.idShipVia = idShipVia;
+        this.idShipper = idShipper;
         this.peso = peso;
         this.shipName = shipName;
         this.shipAddress = shipAddress;
-        this.shipRegion = shipRegion;
-        this.shipCity = shipCity;
-        this.shipCodPostal = codPostal;
-        this.shipCountry = shipCountry;        
+        this.region = region;
+        this.ciudad = ciudad;
+        this.pais = pais;
+        this.codPostal = codPostal;
+        this.dateOrden = dateOrden;
+        this.dateReq = dateReq;
+        this.dateEnvio = dateEnvio;
     }
 
     public int getIdOrden() {
@@ -58,12 +52,12 @@ public class Order implements Comparable<Order> {
         this.idEmpleado = idEmpleado;
     }
 
-    public int getIdShipVia() {
-        return idShipVia;
+    public int getIdShipper() {
+        return idShipper;
     }
 
-    public void setIdShipVia(int idShipVia) {
-        this.idShipVia = idShipVia;
+    public void setIdShipper(int idShipper) {
+        this.idShipper = idShipper;
     }
 
     public double getPeso() {
@@ -90,36 +84,36 @@ public class Order implements Comparable<Order> {
         this.shipAddress = shipAddress;
     }
 
-    public String getShipRegion() {
-        return shipRegion;
+    public String getRegion() {
+        return region;
     }
 
-    public void setShipRegion(String shipRegion) {
-        this.shipRegion = shipRegion;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public String getShipCity() {
-        return shipCity;
+    public String getCiudad() {
+        return ciudad;
     }
 
-    public void setShipCity(String shipCity) {
-        this.shipCity = shipCity;
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
-    public String getShipCountry() {
-        return shipCountry;
+    public String getPais() {
+        return pais;
     }
 
-    public void setShipCountry(String shipCountry) {
-        this.shipCountry = shipCountry;
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
-    public String getShipCodPostal() {
-        return shipCodPostal;
+    public String getCodPostal() {
+        return codPostal;
     }
 
-    public void setShipCodPostal(String shipCodPostal) {
-        this.shipCodPostal = shipCodPostal;
+    public void setCodPostal(String codPostal) {
+        this.codPostal = codPostal;
     }
 
     public Date getDateOrden() {
@@ -145,9 +139,6 @@ public class Order implements Comparable<Order> {
     public void setDateEnvio(Date dateEnvio) {
         this.dateEnvio = dateEnvio;
     }
-
-    @Override
-    public int compareTo(Order o) {
-        return Integer.compare(idOrden, o.getIdOrden());
-    }
+    
+    
 }

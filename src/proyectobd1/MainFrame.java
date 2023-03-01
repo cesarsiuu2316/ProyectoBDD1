@@ -1,4 +1,3 @@
-
 package proyectobd1;
 
 import java.sql.ResultSet;
@@ -27,27 +26,29 @@ import java.util.logging.Logger;
 import java.text.DecimalFormat;
 
 public class MainFrame extends javax.swing.JFrame {
+
     Random r = new Random();
     MariaDBConnection c = null;
     ArrayList<Product> productos = new ArrayList();
-    ArrayList<Customer> clientes  = new ArrayList();
-    ArrayList<Employee> empleados  = new ArrayList();
-    ArrayList<Order> orders  = new ArrayList();
-    ArrayList<OrderDetails> details  = new ArrayList();
-    
-    
+    ArrayList<Customer> clientes = new ArrayList();
+    ArrayList<Employee> empleados = new ArrayList();
+    ArrayList<Shipper> shippers = new ArrayList();
+    ArrayList<Order> orders = new ArrayList();
+    ArrayList<OrderDetails> details = new ArrayList();
+
     public MainFrame() {
-        initComponents(); 
-        
+        initComponents();
+
         // Configurar Frame
         this.setSize(1390, 800);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Proyecto 1 - Teoría de Bases de Datos I");
-        
+
         // Configurar TabbedPane
         limpiarTab1();
         cargarProds();
+        llenarTablaProdsDesc();
     }
 
     @SuppressWarnings("unchecked")
@@ -85,12 +86,12 @@ public class MainFrame extends javax.swing.JFrame {
         txtPais = new javax.swing.JTextField();
         btnOrdenar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        txtProd = new javax.swing.JTextField();
+        txtProdBuscar = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         listProds = new javax.swing.JList<>();
         btnSeleccionarProd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblProds = new javax.swing.JTable();
+        tblProdsOrden = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -108,7 +109,30 @@ public class MainFrame extends javax.swing.JFrame {
         btnAgencia = new javax.swing.JButton();
         lblAgencia = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        obtenerTablaButton = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        txtProd = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        txtCliente10 = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        txtCateg = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        txtCantUnit = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        txtUnitPrice = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        txtStockUnits = new javax.swing.JTextField();
+        obtenerTablaButton1 = new javax.swing.JButton();
+        obtenerTablaButton2 = new javax.swing.JButton();
+        modifi_boton = new javax.swing.JButton();
+        jLabel27 = new javax.swing.JLabel();
+        cbDescontinuado = new javax.swing.JCheckBox();
+        txtReorder = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        txtOrderUnits = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        tblProds = new javax.swing.JTable();
+        cboShippers = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         btnReportes = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -118,6 +142,10 @@ public class MainFrame extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        tblProdsNoDesc = new javax.swing.JTable();
+        jLabel17 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
 
@@ -271,13 +299,13 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.add(jLabel8);
         jLabel8.setBounds(50, 320, 240, 30);
 
-        txtProd.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtProdBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtProdKeyReleased(evt);
+                txtProdBuscarKeyReleased(evt);
             }
         });
-        jPanel2.add(txtProd);
-        txtProd.setBounds(50, 290, 240, 23);
+        jPanel2.add(txtProdBuscar);
+        txtProdBuscar.setBounds(50, 290, 240, 23);
 
         listProds.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(listProds);
@@ -296,7 +324,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.add(btnSeleccionarProd);
         btnSeleccionarProd.setBounds(310, 450, 40, 23);
 
-        tblProds.setModel(new javax.swing.table.DefaultTableModel(
+        tblProdsOrden.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -312,12 +340,12 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblProds.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblProdsOrden.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblProdsMouseClicked(evt);
+                tblProdsOrdenMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblProds);
+        jScrollPane1.setViewportView(tblProdsOrden);
 
         jPanel2.add(jScrollPane1);
         jScrollPane1.setBounds(370, 350, 450, 220);
@@ -437,15 +465,112 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(192, 195, 216));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        obtenerTablaButton.setBackground(new java.awt.Color(153, 153, 255));
-        obtenerTablaButton.setForeground(new java.awt.Color(255, 255, 255));
-        obtenerTablaButton.setText("Obtener datos de tabla");
-        obtenerTablaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel19.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel19.setForeground(java.awt.Color.white);
+        jLabel19.setText("Nombre Producto");
+        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, -1, -1));
+        jPanel3.add(txtProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 160, -1));
+
+        jLabel20.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel20.setForeground(java.awt.Color.white);
+        jLabel20.setText("Proveedor");
+        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 160, 20));
+        jPanel3.add(txtCliente10, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 470, 150, 30));
+
+        jLabel21.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel21.setForeground(java.awt.Color.white);
+        jLabel21.setText("Categoria (ID)");
+        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
+        jPanel3.add(txtCateg, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 160, -1));
+
+        jLabel22.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel22.setForeground(java.awt.Color.white);
+        jLabel22.setText("Cantidad por unidades");
+        jPanel3.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 160, -1));
+        jPanel3.add(txtCantUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 160, -1));
+
+        jLabel23.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel23.setForeground(java.awt.Color.white);
+        jLabel23.setText("Precio unitario");
+        jPanel3.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, -1, -1));
+        jPanel3.add(txtUnitPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 160, -1));
+
+        jLabel24.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel24.setForeground(java.awt.Color.white);
+        jLabel24.setText("Unidades en stock");
+        jPanel3.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 160, -1));
+        jPanel3.add(txtStockUnits, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, 160, -1));
+
+        obtenerTablaButton1.setBackground(new java.awt.Color(153, 153, 255));
+        obtenerTablaButton1.setForeground(new java.awt.Color(255, 255, 255));
+        obtenerTablaButton1.setText("Agregar producto");
+        obtenerTablaButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                obtenerTablaButtonMouseClicked(evt);
+                obtenerTablaButton1MouseClicked(evt);
             }
         });
-        jPanel3.add(obtenerTablaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 190, 50));
+        jPanel3.add(obtenerTablaButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 440, 160, 40));
+
+        obtenerTablaButton2.setBackground(new java.awt.Color(153, 153, 255));
+        obtenerTablaButton2.setForeground(new java.awt.Color(255, 255, 255));
+        obtenerTablaButton2.setText("Eliminar producto");
+        obtenerTablaButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                obtenerTablaButton2MouseClicked(evt);
+            }
+        });
+        jPanel3.add(obtenerTablaButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 560, 160, 40));
+
+        modifi_boton.setBackground(new java.awt.Color(153, 153, 255));
+        modifi_boton.setForeground(new java.awt.Color(255, 255, 255));
+        modifi_boton.setText("Modificar datos");
+        modifi_boton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modifi_botonMouseClicked(evt);
+            }
+        });
+        jPanel3.add(modifi_boton, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 160, 40));
+
+        jLabel27.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel27.setForeground(java.awt.Color.white);
+        jLabel27.setText("Descontinuado");
+        jPanel3.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 100, -1));
+        jPanel3.add(cbDescontinuado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 30, -1));
+        jPanel3.add(txtReorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 160, -1));
+
+        jLabel28.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel28.setForeground(java.awt.Color.white);
+        jLabel28.setText("Reorder Level");
+        jPanel3.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
+        jPanel3.add(txtOrderUnits, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 160, -1));
+
+        jLabel25.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel25.setForeground(java.awt.Color.white);
+        jLabel25.setText("Unidades en órdenes");
+        jPanel3.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 180, -1, -1));
+
+        tblProds.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane11.setViewportView(tblProds);
+
+        jPanel3.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 620, 490));
+
+        cboShippers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel3.add(cboShippers, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 160, -1));
 
         materialTabbed1.addTab("Gestión de Productos", jPanel3);
 
@@ -563,6 +688,59 @@ public class MainFrame extends javax.swing.JFrame {
 
         materialTabbed1.addTab("Tabla de Productos", jPanel5);
 
+        jPanel6.setBackground(new java.awt.Color(192, 195, 216));
+
+        tblProdsNoDesc.setBackground(new java.awt.Color(192, 195, 216));
+        tblProdsNoDesc.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProdsNoDesc.setOpaque(false);
+        jScrollPane10.setViewportView(tblProdsNoDesc);
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Productos no descontinuados");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(79, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane10)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1088, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(78, 78, 78))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
+        );
+
+        materialTabbed1.addTab("Productos no descontinuados", jPanel6);
+
         jPanel1.add(materialTabbed1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 1250, 670));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fotos/gradPinkMorado.jpg"))); // NOI18N
@@ -574,22 +752,18 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void obtenerTablaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_obtenerTablaButtonMouseClicked
-        MariaDBConnection mb = new MariaDBConnection();
-        mb.proyeccion("Orders", "OrderID", "CustomerID");
-    }//GEN-LAST:event_obtenerTablaButtonMouseClicked
-
     private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
         if (listProds.getSelectedIndex() >= 0) {
-            DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
-            DefaultListModel lista = (DefaultListModel)listProds.getModel();
+            DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
+            DefaultListModel lista = (DefaultListModel) listProds.getModel();
             lista.get(listProds.getSelectedIndex());
 
             String prod = lista.get(listProds.getSelectedIndex()).toString();
             boolean existe = false;
 
-            for (int i = 0; i < tabla.getRowCount() && !existe; i++)
+            for (int i = 0; i < tabla.getRowCount() && !existe; i++) {
                 existe = tabla.getValueAt(i, 0).toString().equals(prod);
+            }
 
             if (!existe) {
                 double desc = r.nextDouble() * 0.5;
@@ -597,55 +771,53 @@ public class MainFrame extends javax.swing.JFrame {
                 String descRounded = df.format(desc);
                 Object[] fila = {prod, "1", descRounded};
                 tabla.addRow(fila);
-                tblProds.setModel(tabla);
-            }
-            else {
+                tblProdsOrden.setModel(tabla);
+            } else {
                 JOptionPane.showMessageDialog(this, "El producto ya fue agregado a la orden.", "", 1);
             }
-            txtProd.setText("");
+            txtProdBuscar.setText("");
             llenarListProds();
-        }
-        else
+        } else
             JOptionPane.showMessageDialog(this, "Debe seleccionar un producto.", "", 1);
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
 
-    private void txtProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdKeyReleased
+    private void txtProdBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdBuscarKeyReleased
         DefaultListModel modelo = new DefaultListModel();
-        if (!txtProd.getText().isBlank()) {
+        if (!txtProdBuscar.getText().isBlank()) {
             c = new MariaDBConnection();
             Statement st = null;
             ResultSet rs = null;
-            
-            String query = "select * from products p where p.ProductName regexp '^" +txtProd.getText()+ "'";
+
+            String query = "select * from products p where p.ProductName regexp '^" + txtProdBuscar.getText() + "'";
             try {
                 st = c.connection.createStatement();
                 rs = st.executeQuery(query);
-                while(rs.next()){
-                    modelo.addElement(rs.getString("ProductName")+" ($"+rs.getDouble("UnitPrice")+")");
+                while (rs.next()) {
+                    modelo.addElement(rs.getString("ProductName") + " ($" + rs.getDouble("UnitPrice") + ")");
                 }
                 c.connection.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
-        listProds.setModel(modelo); 
-    }//GEN-LAST:event_txtProdKeyReleased
+        listProds.setModel(modelo);
+    }//GEN-LAST:event_txtProdBuscarKeyReleased
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         Document document = new Document();
-        try{
+        try {
             String ruta = System.getProperty("user.home");
             try {
                 PdfWriter.getInstance(document, new FileOutputStream(ruta + "/Desktop/Reporte.pdf"));
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
-            document.open();    
-            
+            document.open();
+
             Paragraph titulo = new Paragraph();
             titulo.add("Factura de Orden");
             titulo.setAlignment(1);
-            
+
             PdfPTable tabla = new PdfPTable(3); // columna
             tabla.addCell("Columna1");
             tabla.addCell("Columna2");
@@ -653,10 +825,10 @@ public class MainFrame extends javax.swing.JFrame {
             document.add(titulo);
             document.add(Chunk.NEWLINE);
             document.addTitle("hola");
-            document.add(tabla);            
-            document.close();       
+            document.add(tabla);
+            document.close();
             JOptionPane.showMessageDialog(null, "Reporte Creado.");
-        }catch(DocumentException E){
+        } catch (DocumentException E) {
         }
     }//GEN-LAST:event_btnReportesActionPerformed
 
@@ -669,60 +841,62 @@ public class MainFrame extends javax.swing.JFrame {
                 JOptionPane.QUESTION_MESSAGE);
 
         if (response == JOptionPane.OK_OPTION) {
-            DefaultTableModel modelito = (DefaultTableModel) tblProds.getModel();
-            modelito.removeRow(tblProds.getSelectedRow());
-            tblProds.setModel(modelito);
+            DefaultTableModel modelito = (DefaultTableModel) tblProdsOrden.getModel();
+            modelito.removeRow(tblProdsOrden.getSelectedRow());
+            tblProdsOrden.setModel(modelito);
         }
     }//GEN-LAST:event_popElimActionPerformed
 
     private void popEditarCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarCantActionPerformed
-        DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
+        DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
         String cant = JOptionPane.showInputDialog(this, "Ingrese la nueva cantidad");
         try {
             if (Integer.parseInt(cant) >= 1) {
-                tabla.setValueAt(cant, tblProds.getSelectedRow(), 1);
-                tblProds.setModel(tabla);
+                tabla.setValueAt(cant, tblProdsOrden.getSelectedRow(), 1);
+                tblProdsOrden.setModel(tabla);
                 return;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.", "", 1);
     }//GEN-LAST:event_popEditarCantActionPerformed
 
-    private void tblProdsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdsMouseClicked
+    private void tblProdsOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdsOrdenMouseClicked
         if (evt.isMetaDown())
             popupTabla.show(evt.getComponent(), evt.getX(), evt.getY());
-    }//GEN-LAST:event_tblProdsMouseClicked
+    }//GEN-LAST:event_tblProdsOrdenMouseClicked
 
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
         if (txtValid(txtBarco.getText()) && txtValid(txtCiudad.getText())
                 && txtValid(txtDir.getText()) && txtValid(txtPais.getText())
                 && txtValid(txtPostal.getText()) && txtValid(txtRegion.getText())) {
-            
+
             // Validar que haya agregado productos, seleccionado un cliente, empleado y agencia
-            if (tblProds.getRowCount() > 0 && txtValid(lblCliente.getText())
+            if (tblProdsOrden.getRowCount() > 0 && txtValid(lblCliente.getText())
                     && txtValid(lblEmp.getText()) && txtValid(lblAgencia.getText())) {
-                
-                
+
                 ArrayList<Product> prodsOrden = new ArrayList();
-                for (int i = 0; i < tblProds.getRowCount(); i++)
-                    for (Product p : productos)
-                        if (p.name.equals(tblProds.getValueAt(i, 0)))
+                for (int i = 0; i < tblProdsOrden.getRowCount(); i++) {
+                    for (Product p : productos) {
+                        if (p.name.equals(tblProdsOrden.getValueAt(i, 0))) {
                             prodsOrden.add(p);
-                
+                        }
+                    }
+                }
+
                 // Generar ID de la orden
-                Collections.sort(orders);
-                int idOrden = orders.get(orders.size()-1).getIdOrden() + 1;
+//                Collections.sort(orders);
+                int idOrden = orders.get(orders.size() - 1).getIdOrden() + 1;
                 System.out.println(idOrden);
 //                orders.add(new Order())
-                
+
                 // actualizar stock 
                 // crear orden
                 // crear order detail
-            }
-            else
+            } else {
                 JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.", "", 1);
-        }
-        else 
+            }
+        } else
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 1);
     }//GEN-LAST:event_btnOrdenarActionPerformed
 
@@ -732,12 +906,12 @@ public class MainFrame extends javax.swing.JFrame {
             c = new MariaDBConnection();
             Statement st = null;
             ResultSet rs = null;
-            
-            String query = "select * from customers c where c.ContactName regexp '^" +txtCliente.getText()+ "'";
+
+            String query = "select * from customers c where c.ContactName regexp '^" + txtCliente.getText() + "'";
             try {
                 st = c.connection.createStatement();
                 rs = st.executeQuery(query);
-                while(rs.next()){
+                while (rs.next()) {
                     modelo.addElement(rs.getString("ContactName"));
                 }
                 c.connection.close();
@@ -768,7 +942,12 @@ public class MainFrame extends javax.swing.JFrame {
         lblAgencia.setText(listAgencias.getSelectedValue());
         lblAgencia.setVisible(true);
         btnAgencia.setVisible(false);
-        listAgencias.setModel(crearModelLista("shippers", "CompanyName", "", false));
+        
+        DefaultListModel modelo = new DefaultListModel();
+        for (Shipper shipper : shippers)
+            modelo.addElement(shipper.getCompanyName());
+//        listAgencias.setModel(crearModelLista("shippers", "CompanyName", "", false));
+        listAgencias.setModel(modelo);
     }//GEN-LAST:event_btnAgenciaActionPerformed
 
     private void listClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listClientesMouseReleased
@@ -782,13 +961,13 @@ public class MainFrame extends javax.swing.JFrame {
             c = new MariaDBConnection();
             Statement st = null;
             ResultSet rs = null;
-            
-            String query = "select * from employees e where e.FirstName regexp '^" +txtEmp.getText()+ "'";
+
+            String query = "select * from employees e where e.FirstName regexp '^" + txtEmp.getText() + "'";
             try {
                 st = c.connection.createStatement();
                 rs = st.executeQuery(query);
-                while(rs.next()){
-                    modelo.addElement(rs.getString("FirstName")+" "+rs.getString("LastName"));
+                while (rs.next()) {
+                    modelo.addElement(rs.getString("FirstName") + " " + rs.getString("LastName"));
                 }
                 c.connection.close();
             } catch (SQLException ex) {
@@ -809,19 +988,50 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_listAgenciasMouseReleased
 
     private void popEditarDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarDescActionPerformed
-        DefaultTableModel tabla = (DefaultTableModel) tblProds.getModel();
+        DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
         String desc = JOptionPane.showInputDialog(this, "Ingrese el nuevo descuento\n(Decimal entre 0 y 1)");
         try {
             if (Double.parseDouble(desc) > 0 && Double.parseDouble(desc) < 1) {
-                tabla.setValueAt(desc, tblProds.getSelectedRow(), 2);
-                tblProds.setModel(tabla);
+                tabla.setValueAt(desc, tblProdsOrden.getSelectedRow(), 2);
+                tblProdsOrden.setModel(tabla);
                 return;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         JOptionPane.showMessageDialog(this, "Ingrese un descuento válido.", "", 1);
     }//GEN-LAST:event_popEditarDescActionPerformed
 
-    
+    private void obtenerTablaButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_obtenerTablaButton1MouseClicked
+        CrearProductos();
+    }//GEN-LAST:event_obtenerTablaButton1MouseClicked
+
+    private void obtenerTablaButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_obtenerTablaButton2MouseClicked
+        if (tblProds.getSelectedRow() >= 0)
+            modificarProds(0);
+        else
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un producto de la tabla para eliminar");
+
+    }//GEN-LAST:event_obtenerTablaButton2MouseClicked
+
+    private void modifi_botonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifi_botonMouseClicked
+        if (tblProds.getSelectedRow() >= 0) {
+            if ("Modificar Datos".equals(modifi_boton.getText())) {
+                bloquearTxt(1);
+                txtUnitPrice.setText(String.valueOf(productos.get(tblProds.getSelectedRow()).getUnitPrice()));
+                txtStockUnits.setText(String.valueOf(productos.get(tblProds.getSelectedRow()).getStock()));
+                cbDescontinuado.setSelected(productos.get(tblProds.getSelectedRow()).isDiscontinued());
+            } else {
+                modifi_boton.setText("Modificar Datos");
+                modificarProds(1);
+                bloquearTxt(0);
+                txtUnitPrice.setText("");
+                txtStockUnits.setText("");
+                cbDescontinuado.setSelected(false);
+            }
+        } else
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un producto de la tabla para modificar.");
+    }//GEN-LAST:event_modifi_botonMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -854,34 +1064,37 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void limpiarTab1() {
         // Resetear labels y botones
         resetLblBtn(lblCliente, btnCliente);
         resetLblBtn(lblEmp, btnEmp);
         resetLblBtn(lblAgencia, btnAgencia);
-        txtProd.setText("");
+        txtProdBuscar.setText("");
         txtCiudad.setText("");
         txtBarco.setText("");
         txtDir.setText("");
         txtPais.setText("");
         txtPostal.setText("");
         txtRegion.setText("");
-        
-        
+
         // Llenar lista de shippers
         listAgencias.setModel(crearModelLista("shippers", "CompanyName", "", false));
-        
+
         // Llenar lista de empleados
         listEmps.setModel(crearModelLista("employees", "FirstName", "LastName", true));
-        
+
         // Llenar lista de clientes
         listClientes.setModel(crearModelLista("customers", "ContactName", "", false));
-        
+
         // Llenar lista de productos
         llenarListProds();
     }
     
+    public void limpiarTab2() {
+        
+    }
+
     public void llenarListProds() {
         DefaultListModel modelo = new DefaultListModel();
         c = new MariaDBConnection();
@@ -892,17 +1105,17 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             st = c.connection.createStatement();
             rs = st.executeQuery(query);
-            while(rs.next()){
-                modelo.addElement(rs.getString("ProductName")+" ($"+rs.getDouble("UnitPrice")+")");
+            while (rs.next()) {
+                modelo.addElement(rs.getString("ProductName") + " ($" + rs.getDouble("UnitPrice") + ")");
             }
             c.connection.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         listProds.setModel(modelo);
     }
-    
+
     public DefaultListModel crearModelLista(String tabla, String campo1, String campo2, boolean dosCampos) {
         DefaultListModel modelo = new DefaultListModel();
         c = new MariaDBConnection();
@@ -913,39 +1126,42 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             st = c.connection.createStatement();
             rs = st.executeQuery(query);
-            while(rs.next()) {
-                if (dosCampos)
+            while (rs.next()) {
+                if (dosCampos) {
                     modelo.addElement(rs.getString(campo1) + " " + rs.getString(campo2));
-                else
+                } else {
                     modelo.addElement(rs.getString(campo1));
+                }
             }
             c.connection.close();
-        } catch (SQLException ex) { ex.printStackTrace(); }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         return modelo;
     }
-    
+
     public void resetLblBtn(JLabel lbl, JButton btn) {
         lbl.setText("");
         lbl.setVisible(false);
         btn.setVisible(false);
     }
-    
+
     public void cargarProds() {
         c = new MariaDBConnection();
         Statement st = null;
         ResultSet rs = null;
-        
+
         // Cargar productos
         String query = "select * from products";
         try {
             st = c.connection.createStatement();
             rs = st.executeQuery(query);
-            while(rs.next()) {
+            while (rs.next()) {
                 productos.add(new Product(rs.getInt("ProductID"), rs.getString("ProductName"),
                         rs.getInt("SupplierID"), rs.getInt("CategoryID"),
                         rs.getString("QuantityPerUnit"), rs.getDouble("UnitPrice"),
                         rs.getInt("UnitsInStock"), rs.getInt("UnitsOnOrder"),
-                        rs.getInt("ReorderLevel"), (rs.getString("Discontinued").equals("y"))));
+                        rs.getInt("ReorderLevel"), rs.getInt("Discontinued")));
             }
             c.connection.close();
         } catch (SQLException ex) {
@@ -953,10 +1169,189 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    public void cargarShippers() {
+        c = new MariaDBConnection();
+        Statement st = null;
+        ResultSet rs = null;
+
+        // Cargar shippers
+        String query = "select * from shippers";
+        try {
+            st = c.connection.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                shippers.add(new Shipper(rs.getInt("ShipperID"), rs.getString("CompanyName"), rs.getString("Phone")));
+            }
+            c.connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public boolean txtValid(String txt) {
         return (!txt.isBlank() && !txt.isEmpty());
     }
+
+    // Metodos Bryan
+    public void modificarProds(int var) {
+        c = new MariaDBConnection();
+        Statement st = null;
+        ResultSet rs = null;
+
+        // Cargar productos
+        if (var == 1) {
+            try {
+                st = c.connection.createStatement();
+                String query = "UPDATE products SET UnitPrice= " + Double.valueOf(txtUnitPrice.getText()) + " WHERE ProductID= " + productos.get(tblProdsNoDesc.getSelectedRow()).getIdProd();
+                String query2 = "UPDATE products SET UnitsInStock= " + Integer.valueOf(txtStockUnits.getText()) + " WHERE ProductID= " + productos.get(tblProdsNoDesc.getSelectedRow()).getIdProd();
+                String query3 = "UPDATE products SET Discontinued= " + cbDescontinuado.isSelected() + " WHERE ProductID= " + productos.get(tblProdsNoDesc.getSelectedRow()).getIdProd();
+                st.executeQuery(query);
+                st.executeQuery(query2);
+                st.executeQuery(query3);
+                c.connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            c = new MariaDBConnection();
+            st = c.connection.createStatement();
+            String query = "UPDATE products SET Discotinued= " + 1 + " WHERE ProductID= " + productos.get(tblProdsNoDesc.getSelectedRow()).getIdProd();
+            try {
+                st.executeQuery(query);
+                c.connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        cargarProds();
+        llenarTablaProdsDesc();
+
+    }
+
+    public void llenarTablaProdsDesc() {
+        DefaultTableModel modelito = new DefaultTableModel();
+                
+        tblProdsNoDesc.setModel(modelito);
+        modelito.addColumn("ID Producto");
+        modelito.addColumn("Nombre");
+        modelito.addColumn("ID Agencia");
+        modelito.addColumn("Categoria");
+        modelito.addColumn("Cantidad por Unidad");
+        modelito.addColumn("Precio unitario");
+        modelito.addColumn("Unidades en Stock");
+        modelito.addColumn("Unidades en Ordenes");
+        modelito.addColumn("ReorderLevel");
+        
+        
+        Object[] ob = new Object[10];
+        for (Product pro : productos) {
+            if (!pro.isDiscontinued()) {
+                ob[0] = pro.getIdProd();
+                ob[1] = pro.getName();
+                ob[2] = pro.getIdSupplier();
+                ob[3] = pro.getIdCateg();
+                ob[4] = pro.getQuantity();
+                ob[5] = pro.getUnitPrice();
+                ob[6] = pro.getStock();
+                ob[7] = pro.getOrder();
+                ob[8] = pro.getReorder();
+                modelito.addRow(ob);
+            }
+        }
+        tblProdsNoDesc.setModel(modelito);
+    }
     
+    public void llenarTablaProds() {
+        DefaultTableModel modelito = new DefaultTableModel();
+        modelito.addColumn("ID Producto");
+        modelito.addColumn("Nombre");
+        modelito.addColumn("Categoria");
+        modelito.addColumn("Cantidad por Unidad");
+        modelito.addColumn("Precio unitario");
+        modelito.addColumn("Unidades en Stock");
+        modelito.addColumn("Unidades en Ordenes");
+        
+        Object[] ob = new Object[7];
+        for (Product pro : productos) {
+            ob[0] = pro.getIdProd();
+            ob[1] = pro.getName();
+            ob[2] = pro.getIdCateg();
+            ob[3] = pro.getQuantity();
+            ob[4] = pro.getUnitPrice();
+            ob[5] = pro.getStock();
+            ob[6] = pro.getOrder();
+            modelito.addRow(ob);
+        }
+        tblProds.setModel(modelito);
+    }
+
+    public void CrearProductos() {
+        c = new MariaDBConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        int bool = 0;
+        if (cbDescontinuado.isSelected()) {
+            bool = 1;
+        }
+
+        String query = "INSERT INTO products (ProductID, ProductName, QuantityPerUnit, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, Discontinued)"
+                + "VALUES (" + ((productos.get(productos.size() - 1).getIdProd()) + 1) + ", '" + txtProd.getText() + "'" + ", '" + txtCantUnit.getText() + "', " + Double.valueOf(txtUnitPrice.getText())
+                + ", " + Integer.parseInt(txtStockUnits.getText()) + ", " + Integer.parseInt(txtOrderUnits.getText()) + ", " + Integer.parseInt(txtReorder.getText()) + ", " + bool + ")";
+        c = new MariaDBConnection();
+        st = c.connection.createStatement();
+        try {
+            st.executeQuery(query);
+            c.connection.close();
+            cargarProds();
+        } catch (SQLException ex) {
+
+        }
+        c = new MariaDBConnection();
+        st = c.connection.createStatement();
+        try {
+            String query2 = "UPDATE products SET SupplierID= " + Integer.parseInt(txtCliente10.getText()) + " WHERE ProductID= " + productos.get(productos.size() - 1).getIdProd();
+            String query3 = "UPDATE products SET CategoryID= " + Integer.parseInt(txtCateg.getText()) + " WHERE ProductID= " + productos.get(productos.size() - 1).getIdProd();
+            st.executeQuery(query2);
+            st.executeQuery(query3);
+            c.connection.close();
+            llenarTablaProdsDesc();
+        } catch (Exception e) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, e);
+        }
+        txtProd.setText("");
+        txtReorder.setText("");
+        txtCliente10.setText("");
+        txtCateg.setText("");
+        txtCantUnit.setText("");
+        txtUnitPrice.setText("");
+        txtStockUnits.setText("");
+        txtOrderUnits.setText("");
+        cbDescontinuado.setSelected(false);
+
+    }
+
+    public void bloquearTxt(int val) {
+        if (val == 1) {
+            modifi_boton.setText("Confirmar Modificacion");
+
+            txtProd.setEnabled(false);
+            txtReorder.setEnabled(false);
+            txtCliente10.setEnabled(false);
+            txtCateg.setEnabled(false);
+            txtCantUnit.setEnabled(false);
+            txtOrderUnits.setEnabled(false);
+            tblProdsNoDesc.setEnabled(false);
+        } else {
+            txtProd.setEnabled(true);
+            txtReorder.setEnabled(true);
+            txtCliente10.setEnabled(true);
+            txtCateg.setEnabled(true);
+            txtCantUnit.setEnabled(true);
+            txtOrderUnits.setEnabled(true);
+            tblProdsNoDesc.setEnabled(true);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgencia;
     private javax.swing.JButton btnCliente;
@@ -964,6 +1359,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnOrdenar;
     private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnSeleccionarProd;
+    private javax.swing.JCheckBox cbDescontinuado;
+    private javax.swing.JComboBox<String> cboShippers;
     private javax.swing.JFormattedTextField ftxtPeso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -973,7 +1370,17 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -985,7 +1392,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1009,20 +1419,32 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> listEmps;
     private javax.swing.JList<String> listProds;
     private proyectobd1.MaterialTabbed materialTabbed1;
-    private javax.swing.JButton obtenerTablaButton;
+    private javax.swing.JButton modifi_boton;
+    private javax.swing.JButton obtenerTablaButton1;
+    private javax.swing.JButton obtenerTablaButton2;
     private javax.swing.JMenuItem popEditarCant;
     private javax.swing.JMenuItem popEditarDesc;
     private javax.swing.JMenuItem popElim;
     private javax.swing.JPopupMenu popupTabla;
     private javax.swing.JTable tblProds;
+    private javax.swing.JTable tblProdsNoDesc;
+    private javax.swing.JTable tblProdsOrden;
     private javax.swing.JTextField txtBarco;
+    private javax.swing.JTextField txtCantUnit;
+    private javax.swing.JTextField txtCateg;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtCliente;
+    private javax.swing.JTextField txtCliente10;
     private javax.swing.JTextArea txtDir;
     private javax.swing.JTextField txtEmp;
+    private javax.swing.JTextField txtOrderUnits;
     private javax.swing.JTextField txtPais;
     private javax.swing.JFormattedTextField txtPostal;
     private javax.swing.JTextField txtProd;
+    private javax.swing.JTextField txtProdBuscar;
     private javax.swing.JTextField txtRegion;
+    private javax.swing.JTextField txtReorder;
+    private javax.swing.JTextField txtStockUnits;
+    private javax.swing.JTextField txtUnitPrice;
     // End of variables declaration//GEN-END:variables
 }
