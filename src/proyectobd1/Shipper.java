@@ -13,6 +13,11 @@ public class Shipper {
         this.phone = phone;
     }
 
+    @Override
+    public String toString() {
+        return CompanyName;
+    }
+
     public int getIdShipper() {
         return idShipper;
     }
