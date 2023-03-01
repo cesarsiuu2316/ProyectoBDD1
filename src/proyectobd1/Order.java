@@ -4,7 +4,7 @@ package proyectobd1;
 import java.util.Date;
 
 
-public class Order {
+public class Order implements Comparable<Order> {
     private int idOrden, idCliente, idEmpleado, idShipVia;
     private double peso;
     private String shipName, shipAddress, shipRegion,
@@ -144,5 +144,10 @@ public class Order {
 
     public void setDateEnvio(Date dateEnvio) {
         this.dateEnvio = dateEnvio;
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        return Integer.compare(idOrden, o.getIdOrden());
     }
 }

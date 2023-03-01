@@ -47,7 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
         
         // Configurar TabbedPane
         limpiarTab1();
-        cargarDatos();
+        cargarProds();
     }
 
     @SuppressWarnings("unchecked")
@@ -324,7 +324,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Nombre del producto");
+        jLabel15.setText("Buscar producto");
         jPanel2.add(jLabel15);
         jLabel15.setBounds(50, 260, 180, 30);
 
@@ -602,6 +602,8 @@ public class MainFrame extends javax.swing.JFrame {
             else {
                 JOptionPane.showMessageDialog(this, "El producto ya fue agregado a la orden.", "", 1);
             }
+            txtProd.setText("");
+            llenarListProds();
         }
         else
             JOptionPane.showMessageDialog(this, "Debe seleccionar un producto.", "", 1);
@@ -692,17 +694,30 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tblProdsMouseClicked
 
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
-        if (txtValid(txtBarco.getText()) && txtValid(txtCiudad.getText()) && txtValid(txtCliente.getText())
-                && txtValid(txtDir.getText()) && txtValid(txtEmp.getText())
-                && txtValid(txtPais.getText()) && txtValid(txtPostal.getText()) && txtValid(txtRegion.getText())) {
-            if (tblProds.getRowCount() > 0) {
+        if (txtValid(txtBarco.getText()) && txtValid(txtCiudad.getText())
+                && txtValid(txtDir.getText()) && txtValid(txtPais.getText())
+                && txtValid(txtPostal.getText()) && txtValid(txtRegion.getText())) {
+            
+            // Validar que haya agregado productos, seleccionado un cliente, empleado y agencia
+            if (tblProds.getRowCount() > 0 && txtValid(lblCliente.getText())
+                    && txtValid(lblEmp.getText()) && txtValid(lblAgencia.getText())) {
+                
+                
                 ArrayList<Product> prodsOrden = new ArrayList();
                 for (int i = 0; i < tblProds.getRowCount(); i++)
                     for (Product p : productos)
                         if (p.name.equals(tblProds.getValueAt(i, 0)))
                             prodsOrden.add(p);
                 
-                // Crear order y order details para guardar los ids de productos y cantidades de un solo
+                // Generar ID de la orden
+                Collections.sort(orders);
+                int idOrden = orders.get(orders.size()-1).getIdOrden() + 1;
+                System.out.println(idOrden);
+//                orders.add(new Order())
+                
+                // actualizar stock 
+                // crear orden
+                // crear order detail
             }
             else
                 JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.", "", 1);
@@ -845,6 +860,14 @@ public class MainFrame extends javax.swing.JFrame {
         resetLblBtn(lblCliente, btnCliente);
         resetLblBtn(lblEmp, btnEmp);
         resetLblBtn(lblAgencia, btnAgencia);
+        txtProd.setText("");
+        txtCiudad.setText("");
+        txtBarco.setText("");
+        txtDir.setText("");
+        txtPais.setText("");
+        txtPostal.setText("");
+        txtRegion.setText("");
+        
         
         // Llenar lista de shippers
         listAgencias.setModel(crearModelLista("shippers", "CompanyName", "", false));
@@ -854,6 +877,30 @@ public class MainFrame extends javax.swing.JFrame {
         
         // Llenar lista de clientes
         listClientes.setModel(crearModelLista("customers", "ContactName", "", false));
+        
+        // Llenar lista de productos
+        llenarListProds();
+    }
+    
+    public void llenarListProds() {
+        DefaultListModel modelo = new DefaultListModel();
+        c = new MariaDBConnection();
+        Statement st = null;
+        ResultSet rs = null;
+
+        String query = "select * from products";
+        try {
+            st = c.connection.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                modelo.addElement(rs.getString("ProductName")+" ($"+rs.getDouble("UnitPrice")+")");
+            }
+            c.connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        listProds.setModel(modelo);
     }
     
     public DefaultListModel crearModelLista(String tabla, String campo1, String campo2, boolean dosCampos) {
@@ -883,8 +930,7 @@ public class MainFrame extends javax.swing.JFrame {
         btn.setVisible(false);
     }
     
-    public void cargarDatos() {
-        
+    public void cargarProds() {
         c = new MariaDBConnection();
         Statement st = null;
         ResultSet rs = null;
