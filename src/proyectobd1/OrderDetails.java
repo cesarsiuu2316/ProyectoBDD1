@@ -2,16 +2,17 @@ package proyectobd1;
 
 
 public class OrderDetails {
-    int idProducto, quantity;
-    double unitPrice, descuento;
+private int idProducto, orderID, quantity;
+    private double unitPrice, descuento;
 
     public OrderDetails() {}
 
-    public OrderDetails(int idProducto, int quantity, double unitPrice, double descuento) {
+    public OrderDetails(int orderID, int idProducto, int quantity, double unitPrice, double descuento) {
         this.idProducto = idProducto;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.descuento = descuento;
+        this.orderID = orderID;
     }
 
     public int getIdProducto() {
@@ -45,6 +46,17 @@ public class OrderDetails {
     public void setDescuento(double descuento) {
         this.descuento = descuento;
     }
-    
-    
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" + "idProducto=" + idProducto + ", orderID=" + orderID + ", quantity=" + quantity + ", unitPrice=" + unitPrice + ", descuento=" + descuento + '}';
+    }    
 }

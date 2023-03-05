@@ -1,13 +1,12 @@
 package proyectobd1;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 
 public class Employee {
-    int EmployeeID;
-    String FirstName, LastName, Title, Title_Courtesy, Address, City, Region, PostalCode, Country;
-    Date BirthDate, HireDate;
+   private int EmployeeID;
+    private String FirstName = "", LastName = "", Title, Title_Courtesy = "", Address, City = "", Region = "", PostalCode = "", Country = "";
+    private Date BirthDate, HireDate;
 
     public Employee() {}
 
@@ -25,6 +24,12 @@ public class Employee {
         this.BirthDate = BirthDate;
         this.HireDate = HireDate;
     }  
+    
+    public Employee(int EmployeeID, String firstName, String lastName){
+        this.EmployeeID = EmployeeID;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+    }
 
     public int getEmployeeID() {
         return EmployeeID;

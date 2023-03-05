@@ -5,15 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
 import org.mariadb.jdbc.Statement;
-import proyectobd1.MariaDBConnection;
 import java.sql.PreparedStatement;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -24,11 +20,14 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.text.DecimalFormat;
+import java.sql.Timestamp;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -40,9 +39,9 @@ public class MainFrame extends javax.swing.JFrame {
     ArrayList<Shipper> shippers = new ArrayList();
     ArrayList<Order> orders = new ArrayList();
     ArrayList<OrderDetails> details = new ArrayList();
-     ArrayList<Supplier> suppliers = new ArrayList();
-    
+    ArrayList<Supplier> suppliers = new ArrayList();    
     ArrayList<Integer> idOrders = new ArrayList();
+    
     int selectedRow = -1;
 
     public MainFrame() {
@@ -150,8 +149,6 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         tblProdsNoDesc = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        btnReportes = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -214,19 +211,19 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtCliente);
-        txtCliente.setBounds(50, 80, 170, 23);
+        txtCliente.setBounds(50, 80, 170, 22);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setText("Buscar cliente");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(50, 60, 150, 17);
+        jLabel1.setBounds(50, 60, 170, 18);
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel4.setForeground(java.awt.Color.white);
         jLabel4.setText("Buscar empleado");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(280, 60, 160, 17);
+        jLabel4.setBounds(280, 60, 170, 18);
 
         txtEmp.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -234,71 +231,71 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtEmp);
-        txtEmp.setBounds(280, 80, 170, 23);
+        txtEmp.setBounds(280, 80, 170, 22);
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel5.setForeground(java.awt.Color.white);
         jLabel5.setText("Agencia de envío");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(520, 60, 170, 17);
+        jLabel5.setBounds(520, 60, 200, 18);
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel6.setForeground(java.awt.Color.white);
         jLabel6.setText("Peso");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(990, 200, 31, 17);
+        jLabel6.setBounds(990, 200, 140, 18);
 
         ftxtPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.##"))));
         jPanel2.add(ftxtPeso);
-        ftxtPeso.setBounds(990, 220, 140, 23);
+        ftxtPeso.setBounds(990, 220, 140, 22);
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel7.setForeground(java.awt.Color.white);
         jLabel7.setText("Nombre del barco");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(990, 60, 111, 17);
+        jLabel7.setBounds(990, 60, 140, 18);
         jPanel2.add(txtBarco);
-        txtBarco.setBounds(990, 80, 140, 23);
+        txtBarco.setBounds(990, 80, 140, 22);
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel9.setForeground(java.awt.Color.white);
         jLabel9.setText("Dirección del envío");
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(520, 120, 200, 17);
+        jLabel9.setBounds(520, 120, 200, 18);
 
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel10.setForeground(java.awt.Color.white);
         jLabel10.setText("Ciudad del envío");
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(790, 130, 103, 17);
+        jLabel10.setBounds(790, 130, 140, 18);
         jPanel2.add(txtCiudad);
-        txtCiudad.setBounds(790, 150, 140, 23);
+        txtCiudad.setBounds(790, 150, 140, 22);
 
         jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel12.setForeground(java.awt.Color.white);
         jLabel12.setText("Región del envío");
         jPanel2.add(jLabel12);
-        jLabel12.setBounds(790, 200, 102, 17);
+        jLabel12.setBounds(790, 200, 140, 18);
         jPanel2.add(txtRegion);
-        txtRegion.setBounds(790, 220, 140, 23);
+        txtRegion.setBounds(790, 220, 140, 22);
 
         jLabel13.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel13.setForeground(java.awt.Color.white);
         jLabel13.setText("Código postal");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(990, 130, 87, 17);
+        jLabel13.setBounds(990, 130, 140, 18);
 
         txtPostal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
         jPanel2.add(txtPostal);
-        txtPostal.setBounds(990, 150, 140, 23);
+        txtPostal.setBounds(990, 150, 140, 22);
 
         jLabel14.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel14.setForeground(java.awt.Color.white);
         jLabel14.setText("País de envío");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(790, 60, 82, 17);
+        jLabel14.setBounds(790, 60, 140, 18);
         jPanel2.add(txtPais);
-        txtPais.setBounds(790, 80, 140, 23);
+        txtPais.setBounds(790, 80, 140, 22);
 
         btnOrdenar.setBackground(new java.awt.Color(153, 153, 255));
         btnOrdenar.setText("Crear orden");
@@ -323,7 +320,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtProdBuscar);
-        txtProdBuscar.setBounds(50, 290, 240, 23);
+        txtProdBuscar.setBounds(50, 290, 240, 22);
 
         listProds.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(listProds);
@@ -340,7 +337,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnSeleccionarProd);
-        btnSeleccionarProd.setBounds(310, 450, 40, 23);
+        btnSeleccionarProd.setBounds(310, 450, 40, 22);
 
         tblProdsOrden.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -372,7 +369,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Buscar producto");
         jPanel2.add(jLabel15);
-        jLabel15.setBounds(50, 260, 180, 30);
+        jLabel15.setBounds(50, 260, 240, 30);
 
         jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
@@ -450,7 +447,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         cboShippersProd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cboShippersProd);
-        cboShippersProd.setBounds(520, 80, 200, 23);
+        cboShippersProd.setBounds(520, 80, 200, 22);
 
         materialTabbed1.addTab("Gestión de Órdenes", jPanel2);
 
@@ -649,40 +646,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         materialTabbed1.addTab("Productos no descontinuados", jPanel6);
 
-        jPanel4.setBackground(new java.awt.Color(192, 195, 216));
-
-        btnReportes.setBackground(new java.awt.Color(153, 153, 255));
-        btnReportes.setForeground(new java.awt.Color(255, 255, 255));
-        btnReportes.setText("Generar Reportes");
-        btnReportes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReportesActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1245, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 527, Short.MAX_VALUE)
-                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 528, Short.MAX_VALUE)))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 625, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 287, Short.MAX_VALUE)
-                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 288, Short.MAX_VALUE)))
-        );
-
-        materialTabbed1.addTab("Reportes", jPanel4);
-
         jPanel5.setBackground(new java.awt.Color(192, 195, 216));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -774,6 +737,359 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void popElimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popElimActionPerformed
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro que desea eliminar este producto de la orden?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.OK_OPTION) {
+            DefaultTableModel modelito = (DefaultTableModel) tblProdsOrden.getModel();
+            modelito.removeRow(tblProdsOrden.getSelectedRow());
+            tblProdsOrden.setModel(modelito);
+        }
+    }//GEN-LAST:event_popElimActionPerformed
+
+    private void popEditarCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarCantActionPerformed
+        DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
+        int cant = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese la nueva cantidad"));
+        try {
+            if (cant >= 1) {
+                tabla.setValueAt(Integer.toString(cant), tblProdsOrden.getSelectedRow(), 1);
+                tblProdsOrden.setModel(tabla);
+                return;
+            }
+        } catch (Exception e) {
+        }
+        JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.", "", 1);
+    }//GEN-LAST:event_popEditarCantActionPerformed
+
+     private void agregarOrdenBD(Order o){
+        
+        c = new MariaDBConnection();
+        PreparedStatement st = null;
+
+        // Cargar productos
+        String query = "INSERT INTO `orders` (`OrderID`, `CustomerID`, `EmployeeID`, `OrderDate`, `RequiredDate`, `ShippedDate`, `ShipVia`, `Freight`, `ShipName`, `ShipAddress`, `ShipCity`, `ShipRegion`, `ShipPostalCode`, `ShipCountry`)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            st = c.connection.prepareStatement(query);
+            st.setInt(1, o.getIdOrden());
+            st.setString(2, o.getIdCliente());
+            st.setInt(3, o.getIdEmpleado());
+            st.setTimestamp(4, new Timestamp(o.getDateOrden().getTime()));
+            st.setTimestamp(5, new Timestamp(o.getDateReq().getTime()));
+            st.setTimestamp(6, null);
+            st.setInt(7, o.getIdShipVia());
+            st.setDouble(8, o.getPeso());
+            st.setString(9, o.getShipName());
+            st.setString(10, o.getShipAddress());
+            st.setString(11, o.getShipCity());
+            st.setString(12, o.getShipRegion());
+            st.setString(13, o.getShipCodPostal());
+            st.setString(14, o.getShipCountry());
+            st.execute();
+            c.connection.close();
+        } catch (SQLException ex) {
+        }
+    }
+    
+    private void agregarOrderDetailsBD(OrderDetails od){
+        c = new MariaDBConnection();
+        PreparedStatement st = null;
+
+        // Cargar productos
+        String query = "INSERT INTO `orderdetails` (`OrderID`, `ProductID`, `UnitPrice`, `Quantity`, `Discount`)" 
+                + "VALUES (?, ?, ?, ?, ?)";
+        try {
+            st = c.connection.prepareStatement(query);
+            st.setInt(1, od.getOrderID());
+            st.setInt(2, od.getIdProducto());
+            st.setDouble(3, od.getUnitPrice());
+            st.setInt(4, od.getQuantity());
+            st.setDouble(5, od.getDescuento());            
+            st.execute();
+            c.connection.close();
+        } catch (SQLException ex) {
+        }
+    }
+    
+    private void actualizarExistenciasProducto(OrderDetails od){
+        c = new MariaDBConnection();
+        PreparedStatement st = null;
+        // Cargar productos
+        String query = "update products set UnitsInStock = UnitsInStock - " + od.getQuantity() + " where ProductID = " + od.getIdProducto();
+        try {
+            st = c.connection.prepareStatement(query);        
+            st.execute();
+            c.connection.close();
+        } catch (SQLException ex) {
+        }
+    }
+    
+    private int getUnitsInStock(int prodID){
+        int uis = 0; // units in stock
+        for (Product producto : productos) {
+            if(prodID == producto.getIdProd())
+                uis = producto.getStock();              
+        }
+        return uis;
+    }
+    
+    public void generarFactura(Order o, ArrayList<OrderDetails> od){
+        Document document = new Document(PageSize.LETTER, 5,5,5,5);
+        try{
+            String ruta = System.getProperty("user.home");
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(ruta + "/Desktop/Reporte.pdf"));
+            } catch (FileNotFoundException ex) {
+            }
+            document.open();    
+            
+            Paragraph titulo = new Paragraph();
+            titulo.add("FACTURA DE ORDEN"); // titulo de documento
+            titulo.setAlignment(1);
+                        document.add(titulo);
+            document.add(Chunk.NEWLINE);  
+            
+            //BASE COLORS
+            BaseColor color1 = new BaseColor(138, 171, 236); 
+            BaseColor color2 = new BaseColor(194, 210, 252);
+            
+            ArrayList<String> campos = new ArrayList<>(Arrays.asList("OrderID", "CustomerID", "EmployeeID", Integer.toString(o.getIdOrden()), o.getIdCliente(), Integer.toString(o.getIdEmpleado())));
+            PdfPTable table = generarTablaPdf(campos.size()/2, campos, color1, color2, "Orden"); // columna
+            document.add(table);
+
+            // TABLA 2
+            campos = new ArrayList<>(Arrays.asList("OrderDate", "Required Date", "Ship Via (ID)", o.getDateOrden().toString(), o.getDateReq().toString(), Integer.toString(o.getIdShipVia())));
+            table = generarTablaPdf(campos.size()/2, campos, color1, color2, ""); // columna
+            document.add(table);
+            
+            //tabla 3
+            campos = new ArrayList<>(Arrays.asList("Freight", "Ship Name", "Ship Address", Double.toString(o.getPeso()), o.getShipName(), o.getShipAddress()));
+            table = generarTablaPdf(campos.size()/2, campos, color1, color2, ""); // columna
+            document.add(table);
+            
+            //tabla 4
+            campos = new ArrayList<>(Arrays.asList("Ship City", "Ship Region", "Ship Postal Code", o.getShipCity(), o.getShipRegion(), o.getShipCodPostal()));
+            table = generarTablaPdf(campos.size()/2, campos, color1, color2, ""); // columna
+            document.add(table);
+                        
+            // tablas de order details
+            Double subtotal = 0.0;
+            Double totalPagar = 0.0;
+            boolean primerDetail = true;
+            for (OrderDetails detail : od) {
+                campos = new ArrayList<>(Arrays.asList("Product ID", "Unit Price", "Quantity", "Discount", 
+                        Integer.toString(detail.getIdProducto()), Double.toString(detail.getUnitPrice()), Integer.toString(detail.getQuantity()), Double.toString(detail.getDescuento())));
+                if(primerDetail){
+                    table = generarTablaPdf(campos.size()/2, campos, color1, color2, "Order Details"); // columna
+                    primerDetail = false;
+                }else{
+                    table = generarTablaPdf(campos.size()/2, campos, color1, color2, "");
+                }
+                document.add(table);
+                subtotal += detail.getUnitPrice() * detail.getQuantity();
+                totalPagar += (detail.getUnitPrice() * detail.getQuantity()) * (1.0 - detail.getDescuento());
+            }
+            
+            // tablas de subtotal y total a pagar
+            campos = new ArrayList<>(Arrays.asList("Subtotal", "Total a Pagar", Double.toString(subtotal), Double.toString(totalPagar)));
+            table = generarTablaPdf(campos.size()/2, campos, color1, color2, "Subtotal y Total a Pagar"); // columna
+            document.add(table);
+            document.close();       
+            JOptionPane.showMessageDialog(null, "Factura impresa.");                    
+            try{
+                Desktop.getDesktop().open(new File(ruta + "/Desktop/Reporte.pdf"));
+            }catch(Exception e)
+            {            
+                e.printStackTrace();
+            }    
+        }catch(DocumentException E){
+        }
+    }
+    
+    public PdfPTable generarTablaPdf(int nColumnas, ArrayList<String> campos, BaseColor color1, BaseColor color2, String titulo){
+        PdfPTable table = new PdfPTable(nColumnas);
+        if(!titulo.equals("")){
+            PdfPCell cell = new PdfPCell (new Paragraph (titulo));
+            cell.setColspan (nColumnas);
+            cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+            cell.setBackgroundColor(new BaseColor(116, 144, 198)); 
+            cell.setPadding (7.0f);
+            table.addCell(cell);
+        }        
+        Phrase frase = new Phrase(campos.get(0));
+        PdfPCell celda = new PdfPCell(frase);
+        celda.setBackgroundColor(color1);
+        table.addCell(celda);
+        for(int i = 1; i < (nColumnas*2); i++){
+            frase = new Phrase(campos.get(i));
+            //System.out.println(frase.toString());
+            celda = new PdfPCell(frase);
+            if(i < (nColumnas*2)/2){
+                celda.setBackgroundColor(color1);
+            }else{
+                celda.setBackgroundColor(color2);
+            }
+            table.addCell(celda);            
+        }
+        table.setSpacingAfter(10);
+        return table;
+    }
+    
+    private void popEditarDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarDescActionPerformed
+        DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
+        Double desc = Double.parseDouble(JOptionPane.showInputDialog(this, "Ingrese el nuevo descuento\n(Decimal entre 0 y 1)"));
+        try {
+            if (desc >= 0 && desc < 1) {
+                tabla.setValueAt(Double.toString(desc), tblProdsOrden.getSelectedRow(), 2);
+                tblProdsOrden.setModel(tabla);
+                return;
+            }
+        } catch (Exception e) {
+        }
+        JOptionPane.showMessageDialog(this, "Ingrese un descuento válido.", "", 1);
+    }//GEN-LAST:event_popEditarDescActionPerformed
+
+    private void materialTabbed1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_materialTabbed1StateChanged
+        switch (materialTabbed1.getSelectedIndex()) {
+            case 0: {
+                limpiarTab1();
+                break;
+            }
+            case 1: {
+                limpiarTab2();
+                break;
+            }
+            case 2: {
+                limpiarTab3();
+                break;
+            }
+        }
+    }//GEN-LAST:event_materialTabbed1StateChanged
+
+    private void txtSupplierKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSupplierKeyReleased
+        DefaultListModel modelo = new DefaultListModel();
+        if (!txtSupplier.getText().isBlank()) {
+            c = new MariaDBConnection();
+            Statement st = null;
+            ResultSet rs = null;
+
+            String query = "select * from suppliers s where s.ContactName regexp '^" + txtSupplier.getText() + "'";
+            try {
+                st = c.connection.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    modelo.addElement(rs.getString("ContactName"));
+                }
+                c.connection.close();
+            } catch (SQLException ex) {
+            }
+        }
+        else
+        modelo = crearModelLista("suppliers", "ContactName", "", false);
+        listSuppliers.setModel(modelo);
+    }//GEN-LAST:event_txtSupplierKeyReleased
+
+    private void listSuppliersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listSuppliersMouseReleased
+        if (listSuppliers.getSelectedIndex() >= 0)
+        btnSupplier.setVisible(true);
+    }//GEN-LAST:event_listSuppliersMouseReleased
+
+    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
+        lblSupplier.setText(listSuppliers.getSelectedValue());
+        lblSupplier.setVisible(true);
+        btnSupplier.setVisible(false);
+        txtSupplier.setText("");
+        listSuppliers.setModel(crearModelLista("suppliers", "ContactName", "", false));
+    }//GEN-LAST:event_btnSupplierActionPerformed
+
+    private void btnModificarProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarProdMouseClicked
+        if (btnModificarProd.getText().equals("Modificar producto")) {
+            selectedRow = tblProds.getSelectedRow();
+            if (tblProds.getSelectedRow() >= 0) {
+                btnModificarProd.setText("Guardar cambios");
+                bloquearTxt(false);
+
+                Product prodSelected = productos.get(selectedRow);
+                txtProd.setText(prodSelected.getName());
+                txtCateg.setText(String.valueOf(prodSelected.getIdCateg()));
+                txtUnitPrice.setText(String.valueOf(prodSelected.getUnitPrice()));
+                txtStockUnits.setText(String.valueOf(prodSelected.getStock()));
+                cbDescontinuado.setSelected(prodSelected.isDiscontinued());
+                txtReorder.setText(String.valueOf(prodSelected.getReorder()));
+                txtCantUnit.setText(prodSelected.getQuantity());
+                txtOrderUnits.setText(String.valueOf(prodSelected.getOrder()));
+
+                lblSupplier.setText(suppliers.get(prodSelected.getIdSupplier()).getContactName());
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un producto de la tabla para modificar.");
+            }
+
+        } else {
+            if (txtValid((txtUnitPrice.getText())) && txtValid(txtStockUnits.getText())) {
+                btnModificarProd.setText("Modificar producto");
+                bloquearTxt(true);
+
+                modificarProds(1);
+                txtUnitPrice.setText("");
+                txtStockUnits.setText("");
+                cbDescontinuado.setSelected(false);
+                selectedRow = -1;
+            } else
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.");
+        }
+        llenarTablaProds();
+    }//GEN-LAST:event_btnModificarProdMouseClicked
+
+    private void btnEliminarProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarProdMouseClicked
+        selectedRow = tblProds.getSelectedRow();
+        if (selectedRow >= 0)
+        modificarProds(0);
+        else
+        JOptionPane.showMessageDialog(this, "Debe seleccionar un producto de la tabla para eliminar");
+        llenarTablaProds();
+    }//GEN-LAST:event_btnEliminarProdMouseClicked
+
+    private void btnAgregarProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarProdMouseClicked
+        CrearProductos();
+        llenarTablaProds();
+    }//GEN-LAST:event_btnAgregarProdMouseClicked
+
+    private void btnEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpActionPerformed
+        lblEmp.setText(listEmps.getSelectedValue());
+        lblEmp.setVisible(true);
+        btnEmp.setVisible(false);
+        txtEmp.setText("");
+        listEmps.setModel(crearModelLista("employees", "FirstName", "LastName", true));
+    }//GEN-LAST:event_btnEmpActionPerformed
+
+    private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
+        lblCliente.setText(listClientes.getSelectedValue());
+        lblCliente.setVisible(true);
+        btnCliente.setVisible(false);
+        txtCliente.setText("");
+        listClientes.setModel(crearModelLista("customers", "ContactName", "", false));
+    }//GEN-LAST:event_btnClienteActionPerformed
+
+    private void listEmpsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listEmpsMouseReleased
+        if (listEmps.getSelectedIndex() >= 0)
+        btnEmp.setVisible(true);
+    }//GEN-LAST:event_listEmpsMouseReleased
+
+    private void listClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listClientesMouseReleased
+        if (listClientes.getSelectedIndex() >= 0)
+        btnCliente.setVisible(true);
+    }//GEN-LAST:event_listClientesMouseReleased
+
+    private void tblProdsOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdsOrdenMouseClicked
+        if (evt.isMetaDown())
+        popupTabla.show(evt.getComponent(), evt.getX(), evt.getY());
+    }//GEN-LAST:event_tblProdsOrdenMouseClicked
+
     private void btnSeleccionarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProdActionPerformed
         if (listProds.getSelectedIndex() >= 0) {
             DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
@@ -801,10 +1117,10 @@ public class MainFrame extends javax.swing.JFrame {
             // Llenar lista productos
             DefaultListModel modelo = new DefaultListModel();
             for (Product producto : productos)
-                modelo.addElement(producto.getName()+ " ($" +producto.getUnitPrice()+ ")");
+            modelo.addElement(producto.getName()+ " ($" +producto.getUnitPrice()+ ")");
             listProds.setModel(modelo);
         } else
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un producto.", "", 1);
+        JOptionPane.showMessageDialog(this, "Debe seleccionar un producto.", "", 1);
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
 
     private void txtProdBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdBuscarKeyReleased
@@ -828,152 +1144,126 @@ public class MainFrame extends javax.swing.JFrame {
         }
         else {
             for (Product producto : productos)
-                modelo.addElement(producto.getName() + " ($" + producto.getUnitPrice() + ")");
+            modelo.addElement(producto.getName() + " ($" + producto.getUnitPrice() + ")");
         }
         listProds.setModel(modelo);
     }//GEN-LAST:event_txtProdBuscarKeyReleased
 
-    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        Document document = new Document();
-        try {
-            String ruta = System.getProperty("user.home");
-            try {
-                PdfWriter.getInstance(document, new FileOutputStream(ruta + "/Desktop/Reporte.pdf"));
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
-            document.open();
-
-            Paragraph titulo = new Paragraph();
-            titulo.add("Factura de Orden");
-            titulo.setAlignment(1);
-
-            PdfPTable tabla = new PdfPTable(3); // columna
-            tabla.addCell("Columna1");
-            tabla.addCell("Columna2");
-            tabla.addCell("Columna3");
-            document.add(titulo);
-            document.add(Chunk.NEWLINE);
-            document.addTitle("hola");
-            document.add(tabla);
-            document.close();
-            JOptionPane.showMessageDialog(null, "Reporte Creado.");
-        } catch (DocumentException E) {
-        }
-    }//GEN-LAST:event_btnReportesActionPerformed
-
-    private void popElimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popElimActionPerformed
-        int response = JOptionPane.showConfirmDialog(
-                this,
-                "¿Seguro que desea eliminar este producto de la orden?",
-                "Confirmación",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-
-        if (response == JOptionPane.OK_OPTION) {
-            DefaultTableModel modelito = (DefaultTableModel) tblProdsOrden.getModel();
-            modelito.removeRow(tblProdsOrden.getSelectedRow());
-            tblProdsOrden.setModel(modelito);
-        }
-    }//GEN-LAST:event_popElimActionPerformed
-
-    private void popEditarCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarCantActionPerformed
-        DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
-        String cant = JOptionPane.showInputDialog(this, "Ingrese la nueva cantidad");
-        try {
-            if (Integer.parseInt(cant) >= 1) {
-                tabla.setValueAt(cant, tblProdsOrden.getSelectedRow(), 1);
-                tblProdsOrden.setModel(tabla);
-                return;
-            }
-        } catch (Exception e) {
-        }
-        JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.", "", 1);
-    }//GEN-LAST:event_popEditarCantActionPerformed
-
-    private void tblProdsOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdsOrdenMouseClicked
-        if (evt.isMetaDown())
-            popupTabla.show(evt.getComponent(), evt.getX(), evt.getY());
-    }//GEN-LAST:event_tblProdsOrdenMouseClicked
-
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
         if (txtValid(txtBarco.getText()) && txtValid(txtCiudad.getText())
-                && txtValid(txtDir.getText()) && txtValid(txtPais.getText())
-                && txtValid(txtPostal.getText()) && txtValid(txtRegion.getText())) {
+            && txtValid(txtDir.getText()) && txtValid(txtPais.getText())
+            && txtValid(txtPostal.getText()) && txtValid(txtRegion.getText()) && txtValid(ftxtPeso.getText())) {
 
             // Validar que haya agregado productos, seleccionado un cliente, empleado y agencia
-            if (tblProdsOrden.getRowCount() > 0 && txtValid(lblCliente.getText())
-                    && txtValid(lblEmp.getText()) && cboShippersProd.getSelectedIndex()>=0) {
+            if (tblProdsOrden.getRowCount() > 0 && txtValid(lblCliente.getText()) // si hay minimo un producto seleccionado y los campos contienen valores validos
+                && txtValid(lblEmp.getText()) && cboShippersProd.getSelectedIndex()>=0) {
 
-                ArrayList<Product> prodsOrden = new ArrayList();
-                for (int i = 0; i < tblProdsOrden.getRowCount(); i++) {
-                    for (Product p : productos) {
-                        if (p.name.equals(tblProdsOrden.getValueAt(i, 0))) {
-                            prodsOrden.add(p);
-                        }
+                String barco, ciudad, dir, pais, postal, region, clienteID = "";
+                int shipVia = 0, empID = 0;
+                double peso;
+                Date dateOrden, dateReq, dateEnvio;
+                dateEnvio = null;
+                dateOrden = new Date();
+                // convert date to calendar
+                Calendar c = Calendar.getInstance();
+                c.setTime(dateOrden);
+                c.add(Calendar.DATE, 2);
+                dateReq = c.getTime();
+                for (Customer cliente : clientes) { // obtener idCliente
+                    if(cliente.getContactName().equalsIgnoreCase(lblCliente.getText())){
+                        clienteID = cliente.getCustomerID();
                     }
                 }
+                String nombreEmpleado;
+                cargarEmpleados(); // obtener datos de empleados
+                for (Employee empleado: empleados){ // obtener idEmpleado
+                    nombreEmpleado = empleado.getFirstName() + " " + empleado.getLastName();
+                    if(nombreEmpleado.equalsIgnoreCase(lblEmp.getText())){
+                        empID = empleado.getEmployeeID();
+                    }
+                }
+                cargarShippers(); // cargar datos de cargamento
+                for (Shipper shipper : shippers) { // obtener shipperID
+                    if(shipper.getCompanyName().equalsIgnoreCase(cboShippersProd.getSelectedItem().toString())){
+                        shipVia = shipper.getIdShipper();
+                    }
+                }
+                peso = Double.parseDouble(ftxtPeso.getText());
+                barco = txtBarco.getText();
+                ciudad = txtCiudad.getText();
+                dir = txtDir.getText();
+                pais = txtPais.getText();
+                postal = txtPostal.getText();
+                region = txtRegion.getText();
+                cargarIDOrders(); // cargar los ids
+                int orderId = idOrders.get(idOrders.size()-1) + 1;
 
-                // Generar ID de la orden
-//                Collections.sort(orders);
-                int idOrden = orders.get(orders.size() - 1).getIdOrden() + 1;
-                System.out.println(idOrden);
-//                orders.add(new Order())
+                /*System.out.println(orderId);
+                System.out.println(clienteID);
+                System.out.println(empID);
+                System.out.println(dateOrden.toString());
+                System.out.println(dateReq.toString());
+                System.out.println(dateEnvio);
+                System.out.println(shipVia);
+                System.out.println(peso);
+                System.out.println(barco);
+                System.out.println(dir);
+                System.out.println(ciudad);
+                System.out.println(region);
+                System.out.println(postal);
+                System.out.println(pais);*/
 
-                // actualizar stock 
-                // crear orden
-                // crear order detail
+                boolean ordenar = true;
+                ArrayList<OrderDetails> orderDetails = new ArrayList();
+                int id_Producto = 0, quantity;
+                double unitPrice = 0, descuento;
+                for(int i = 0; i < tblProdsOrden.getRowCount(); i++){ // obtener arraylist de order details obtenidos con los valores de la tabla de productos
+                    String nombreProducto = tblProdsOrden.getValueAt(i, 0).toString();
+                    quantity = Integer.parseInt(tblProdsOrden.getValueAt(i, 1).toString());
+                    descuento = Double.parseDouble(tblProdsOrden.getValueAt(i, 2).toString());
+                    String productName = "";
+                    for (Product producto : productos) {
+                        productName = producto.getName()+ " ($" +producto.getUnitPrice()+ ")";
+                        if(productName.equals(nombreProducto)){
+                            id_Producto = producto.getIdProd();
+                            unitPrice = producto.getUnitPrice();
+                            break;
+                        }
+                    }
+                    OrderDetails od = new OrderDetails(orderId, id_Producto, quantity, unitPrice, descuento); //crear nuevo orderdetail
+
+                    int unitsInStock = getUnitsInStock(id_Producto);
+                    if(unitsInStock > 0 && unitsInStock >= quantity){
+                        orderDetails.add(od); // agregar orderdetail a arraylist
+                    }else{
+                        if(unitsInStock == 0){
+                            JOptionPane.showMessageDialog(this, "Lo sentimos, el producto: " + nombreProducto + " no se encuentra disponible.", "", 1);
+                        }else{
+                            JOptionPane.showMessageDialog(this, "Lo sentimos, solo quedan " + Integer.toString(unitsInStock) + " unidades del producto: " + nombreProducto + ".", "", 1);
+                        }
+                        ordenar = false;
+                        break;
+                    }
+                }
+                if(ordenar){
+                    Order orden = new Order(orderId, clienteID, empID, dateOrden, dateReq,
+                        dateEnvio, shipVia, peso, barco, dir, ciudad, region, postal, pais); // crear la nueva orden
+                    agregarOrdenBD(orden); // agregar la orden a la tabla
+
+                    for (OrderDetails od : orderDetails) { // por cada order detail, aÃ±adirlo a la tabla y actualizar la cantidad de productos
+                        agregarOrderDetailsBD(od);
+                        actualizarExistenciasProducto(od); // modificar los units in stock de productos
+                    }
+                    generarFactura(orden, orderDetails);
+                }else{
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar los productos dentro de la cantidad disponible.", "", 1);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la orden.", "", 1);
             }
         } else
-            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 1);
+        JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 1);
     }//GEN-LAST:event_btnOrdenarActionPerformed
-
-    private void txtClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClienteKeyReleased
-        DefaultListModel modelo = new DefaultListModel();
-        if (!txtCliente.getText().isBlank()) {
-            c = new MariaDBConnection();
-            Statement st = null;
-            ResultSet rs = null;
-
-            String query = "select * from customers c where c.ContactName regexp '^" + txtCliente.getText() + "'";
-            try {
-                st = c.connection.createStatement();
-                rs = st.executeQuery(query);
-                while (rs.next()) {
-                    modelo.addElement(rs.getString("ContactName"));
-                }
-                c.connection.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        else
-            modelo = crearModelLista("customers", "ContactName", "", false);
-        listClientes.setModel(modelo);
-    }//GEN-LAST:event_txtClienteKeyReleased
-
-    private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
-        lblCliente.setText(listClientes.getSelectedValue());
-        lblCliente.setVisible(true);
-        btnCliente.setVisible(false);
-        txtCliente.setText("");
-        listClientes.setModel(crearModelLista("customers", "ContactName", "", false));
-    }//GEN-LAST:event_btnClienteActionPerformed
-
-    private void btnEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpActionPerformed
-        lblEmp.setText(listEmps.getSelectedValue());
-        lblEmp.setVisible(true);
-        btnEmp.setVisible(false);
-        txtEmp.setText("");
-        listEmps.setModel(crearModelLista("employees", "FirstName", "LastName", true));
-    }//GEN-LAST:event_btnEmpActionPerformed
-
-    private void listClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listClientesMouseReleased
-        if (listClientes.getSelectedIndex() >= 0)
-            btnCliente.setVisible(true);
-    }//GEN-LAST:event_listClientesMouseReleased
 
     private void txtEmpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmpKeyReleased
         DefaultListModel modelo = new DefaultListModel();
@@ -995,119 +1285,18 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         else
-            modelo = crearModelLista("employees", "FirstName", "LastName", true);
+        modelo = crearModelLista("employees", "FirstName", "LastName", true);
         listEmps.setModel(modelo);
     }//GEN-LAST:event_txtEmpKeyReleased
 
-    private void listEmpsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listEmpsMouseReleased
-        if (listEmps.getSelectedIndex() >= 0)
-            btnEmp.setVisible(true);
-    }//GEN-LAST:event_listEmpsMouseReleased
-
-    private void popEditarDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditarDescActionPerformed
-        DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
-        String desc = JOptionPane.showInputDialog(this, "Ingrese el nuevo descuento\n(Decimal entre 0 y 1)");
-        try {
-            if (Double.parseDouble(desc) > 0 && Double.parseDouble(desc) < 1) {
-                tabla.setValueAt(desc, tblProdsOrden.getSelectedRow(), 2);
-                tblProdsOrden.setModel(tabla);
-                return;
-            }
-        } catch (Exception e) {
-        }
-        JOptionPane.showMessageDialog(this, "Ingrese un descuento válido.", "", 1);
-    }//GEN-LAST:event_popEditarDescActionPerformed
-
-    private void btnAgregarProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarProdMouseClicked
-        CrearProductos();
-        llenarTablaProds();
-    }//GEN-LAST:event_btnAgregarProdMouseClicked
-
-    private void btnEliminarProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarProdMouseClicked
-        selectedRow = tblProds.getSelectedRow();
-        if (selectedRow >= 0)
-            modificarProds(0);
-        else
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un producto de la tabla para eliminar");
-        llenarTablaProds();
-    }//GEN-LAST:event_btnEliminarProdMouseClicked
-
-    private void btnModificarProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarProdMouseClicked
-        if (btnModificarProd.getText().equals("Modificar producto")) {
-            selectedRow = tblProds.getSelectedRow();
-            if (tblProds.getSelectedRow() >= 0) {
-                btnModificarProd.setText("Guardar cambios");
-                bloquearTxt(false);
-                
-                Product prodSelected = productos.get(selectedRow);
-                txtProd.setText(prodSelected.getName());
-                txtCateg.setText(String.valueOf(prodSelected.getIdCateg()));
-                txtUnitPrice.setText(String.valueOf(prodSelected.getUnitPrice()));
-                txtStockUnits.setText(String.valueOf(prodSelected.getStock()));
-                cbDescontinuado.setSelected(prodSelected.isDiscontinued());
-                txtReorder.setText(String.valueOf(prodSelected.getReorder()));
-                txtCantUnit.setText(prodSelected.getQuantity());
-                txtOrderUnits.setText(String.valueOf(prodSelected.getOrder()));
-                
-                lblSupplier.setText(suppliers.get(prodSelected.getIdSupplier()).getContactName());
-            } else {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar un producto de la tabla para modificar.");
-            }
-                
-        } else {
-            if (txtValid((txtUnitPrice.getText())) && txtValid(txtStockUnits.getText())) {
-                btnModificarProd.setText("Modificar producto");
-                bloquearTxt(true);
-                
-                modificarProds(1);
-                txtUnitPrice.setText("");
-                txtStockUnits.setText("");
-                cbDescontinuado.setSelected(false);
-                selectedRow = -1;
-            } else
-                JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.");
-        }
-        llenarTablaProds();
-    }//GEN-LAST:event_btnModificarProdMouseClicked
-
-    private void materialTabbed1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_materialTabbed1StateChanged
-        switch (materialTabbed1.getSelectedIndex()) {
-            case 0: {
-                limpiarTab1();
-                break;
-            }
-            case 1: {
-                limpiarTab2();
-                break;
-            }
-            case 2: {
-                limpiarTab3();
-                break;
-            }
-        }
-    }//GEN-LAST:event_materialTabbed1StateChanged
-
-    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
-        lblSupplier.setText(listSuppliers.getSelectedValue());
-        lblSupplier.setVisible(true);
-        btnSupplier.setVisible(false);
-        txtSupplier.setText("");
-        listSuppliers.setModel(crearModelLista("suppliers", "ContactName", "", false));
-    }//GEN-LAST:event_btnSupplierActionPerformed
-
-    private void listSuppliersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listSuppliersMouseReleased
-        if (listSuppliers.getSelectedIndex() >= 0)
-            btnSupplier.setVisible(true);
-    }//GEN-LAST:event_listSuppliersMouseReleased
-
-    private void txtSupplierKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSupplierKeyReleased
+    private void txtClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClienteKeyReleased
         DefaultListModel modelo = new DefaultListModel();
-        if (!txtSupplier.getText().isBlank()) {
+        if (!txtCliente.getText().isBlank()) {
             c = new MariaDBConnection();
             Statement st = null;
             ResultSet rs = null;
 
-            String query = "select * from suppliers s where s.ContactName regexp '^" + txtSupplier.getText() + "'";
+            String query = "select * from customers c where c.ContactName regexp '^" + txtCliente.getText() + "'";
             try {
                 st = c.connection.createStatement();
                 rs = st.executeQuery(query);
@@ -1116,13 +1305,12 @@ public class MainFrame extends javax.swing.JFrame {
                 }
                 c.connection.close();
             } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         }
         else
-            modelo = crearModelLista("suppliers", "ContactName", "", false);
-        listSuppliers.setModel(modelo);
-    }//GEN-LAST:event_txtSupplierKeyReleased
+        modelo = crearModelLista("customers", "ContactName", "", false);
+        listClientes.setModel(modelo);
+    }//GEN-LAST:event_txtClienteKeyReleased
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1168,6 +1356,7 @@ public class MainFrame extends javax.swing.JFrame {
         txtPais.setText("");
         txtPostal.setText("");
         txtRegion.setText("");
+        ftxtPeso.setText("");
         
         // Llenar cbo de shippers
         DefaultComboBoxModel model = new DefaultComboBoxModel();
@@ -1228,7 +1417,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
             c.connection.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return modelo;
     }
@@ -1259,7 +1447,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
             c.connection.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
     
@@ -1279,7 +1466,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
             c.connection.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
     
@@ -1307,7 +1493,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void cargarEmpleados() {
-        empleados = new ArrayList();
         c = new MariaDBConnection();
         Statement st = null;
         ResultSet rs = null;
@@ -1318,12 +1503,10 @@ public class MainFrame extends javax.swing.JFrame {
             st = c.connection.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
-//                empleados.add(new Employee(rs.getInt("EmployeeID"), rs.getString("LastName"), rs.getString("FirstName"),
-//                    rs.getString("Title"), rs.getString("TitleOfCourtesy"), rs.));
+                empleados.add(new Employee(rs.getInt("EmployeeID"), rs.getString("FirstName"), rs.getString("LastName")));
             }
             c.connection.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
     
@@ -1347,7 +1530,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
             c.connection.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
     
@@ -1377,7 +1559,6 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 c.connection.close();
             } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         } else {
             st = c.connection.createStatement();
@@ -1450,111 +1631,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         tblProds.setModel(modelito);
     }
-    
-     public void generarFactura(){
-        Document document = new Document(PageSize.LETTER, 5,5,5,5);
-        try{
-            String ruta = System.getProperty("user.home");
-            try {
-                PdfWriter.getInstance(document, new FileOutputStream(ruta + "/Desktop/Reporte.pdf"));
-            } catch (FileNotFoundException ex) {
-            }
-            document.open();    
-            
-            Paragraph titulo = new Paragraph();
-            titulo.add("Factura de Orden");
-            titulo.setAlignment(1);
-                        document.add(titulo);
-            document.add(Chunk.NEWLINE);            
-            
-            PdfPTable tabla = new PdfPTable(3); // columna
-            // TITULO DE TABLA
-            PdfPCell cell = new PdfPCell (new Paragraph ("Orden"));
-            cell.setColspan (3);
-            cell.setHorizontalAlignment (Element.ALIGN_CENTER);
-            cell.setBackgroundColor(new BaseColor(116, 144, 198)); 
-            cell.setPadding (7.0f);
-            tabla.addCell(cell);
-            tabla.setSpacingAfter(10);
-            
-            //BASE COLORS
-            BaseColor color1 = new BaseColor(138, 171, 236); 
-            BaseColor color2 = new BaseColor(194, 210, 252);
-            
-            // ORDEN SUBTITULOS TABLA 1
-            PdfPCell orden = new PdfPCell (new Paragraph ("OrderID"));
-            orden.setBackgroundColor(color1);
-            tabla.addCell(orden);
-            PdfPCell customerID = new PdfPCell (new Paragraph ("CustomerID"));
-            customerID.setBackgroundColor(color1);
-            tabla.addCell(customerID);
-            PdfPCell employeeID = new PdfPCell (new Paragraph ("EmployeeID"));
-            employeeID.setBackgroundColor(color1);            
-            tabla.addCell(employeeID);
-            
-            // ORDEN TABLA 1
-            PdfPCell orde = new PdfPCell (new Paragraph ("1"));
-            orde.setBackgroundColor(color2);
-            tabla.addCell(orde);
-            PdfPCell customeID = new PdfPCell (new Paragraph ("2"));
-            customeID.setBackgroundColor(color2);
-            tabla.addCell(customeID);
-            PdfPCell employeID = new PdfPCell (new Paragraph ("3"));
-            employeID.setBackgroundColor(color2);            
-            tabla.addCell(employeID);
-            
-            document.add(tabla);
-            
-            //tabla 2
-            PdfPTable tabla2 = new PdfPTable(3); // columna
-            tabla2.setSpacingAfter(10);
-            
-            // TABLA 2
-            ArrayList<String> campos = new ArrayList<String>(Arrays.asList("OrderDate", "Required Date", "Ship Via (ID)", "1", "2", "3"));
-            PdfPTable table = generarTablaPdf(campos.size()/2, campos, color1, color2); // columna
-            document.add(table);
-            
-            //tabla 3
-            PdfPTable tabla3 = new PdfPTable(3); // columna
-            tabla3.setSpacingAfter(10);
-            
-            // ORDEN SUBTITULOS TABLA 2
-            campos = new ArrayList<String>(Arrays.asList("Freight", "Ship Name", "Ship Address", "1", "2", "3"));
-            table = generarTablaPdf(campos.size()/2, campos, color1, color2); // columna
-            document.add(table);
-            
-            //tabla 4
-            campos = new ArrayList<String>(Arrays.asList("Ship City", "Ship Region", "1", "2"));
-            table = generarTablaPdf(campos.size()/2, campos, color1, color2); // columna
-            document.add(table);
-            
-            document.close();       
-            JOptionPane.showMessageDialog(null, "Reporte Creado.");
-        }catch(DocumentException E){
-        }
-    }
-    
-    public PdfPTable generarTablaPdf(int nColumnas, ArrayList<String> campos, BaseColor color1, BaseColor color2){
-        PdfPTable table = new PdfPTable(nColumnas);
-        Phrase frase = new Phrase(campos.get(0));
-        PdfPCell celda = new PdfPCell(frase);
-        celda.setBackgroundColor(color1);
-        table.addCell(celda);
-        for(int i = 1; i < (nColumnas*2); i++){
-            frase = new Phrase(campos.get(i));
-            System.out.println(frase.toString());
-            celda = new PdfPCell(frase);
-            if(i < (nColumnas*2)/2){
-                celda.setBackgroundColor(color1);
-            }else{
-                celda.setBackgroundColor(color2);
-            }
-            table.addCell(celda);            
-        }
-        table.setSpacingAfter(10);
-        return table;
-    }
-    
+  
     public void cargarOrders(){
         orders = new ArrayList();
         c = new MariaDBConnection();
@@ -1577,7 +1654,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
             c.connection.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -1597,7 +1673,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
             c.connection.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         Collections.sort(idOrders);
     }
@@ -1679,7 +1754,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnEmp;
     private javax.swing.JButton btnModificarProd;
     private javax.swing.JButton btnOrdenar;
-    private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnSeleccionarProd;
     private javax.swing.JButton btnSupplier;
     private javax.swing.JCheckBox cbDescontinuado;
@@ -1713,7 +1787,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
