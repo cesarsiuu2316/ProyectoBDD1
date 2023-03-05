@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/cesar/Java/ProyectoBD1/src/proyectobd1/OrderDetails.java</file>
-            <file>file:/C:/Users/cesar/Java/ProyectoBD1/src/proyectobd1/MaterialTabbed.java</file>
-            <file>file:/C:/Users/cesar/Java/ProyectoBD1/src/proyectobd1/MariaDBConnection.java</file>
-            <file>file:/C:/Users/cesar/Java/ProyectoBD1/src/proyectobd1/Order.java</file>
-            <file>file:/C:/Users/cesar/Java/ProyectoBD1/src/proyectobd1/MainFrame.java</file>
+            <file>file:/Users/pame/Documents/GitHub/ProyectoBDD1/src/proyectobd1/Employee.java</file>
+            <file>file:/Users/pame/Documents/GitHub/ProyectoBDD1/src/proyectobd1/Order.java</file>
+            <file>file:/Users/pame/Documents/GitHub/ProyectoBDD1/src/proyectobd1/MainFrame.java</file>
+            <file>file:/Users/pame/Documents/GitHub/ProyectoBDD1/src/proyectobd1/Shipper.java</file>
+            <file>file:/Users/pame/Documents/GitHub/ProyectoBDD1/src/proyectobd1/Product.java</file>
+            <file>file:/Users/pame/Documents/GitHub/ProyectoBDD1/src/proyectobd1/OrderDetails.java</file>
+            <file>file:/Users/pame/Documents/GitHub/ProyectoBDD1/src/proyectobd1/Customer.java</file>
         </group>
     </open-files>
 </project-private>
