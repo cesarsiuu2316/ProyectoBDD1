@@ -1038,14 +1038,18 @@ public class MainFrame extends javax.swing.JFrame {
             if (tblProds.getSelectedRow() >= 0) {
                 btnModificarProd.setText("Guardar cambios");
                 bloquearTxt(false);
-                btnAgregarProd.setVisible(false);
-                btnEliminarProd.setVisible(false);
+                
                 Product prodSelected = productos.get(selectedRow);
                 txtProd.setText(prodSelected.getName());
                 txtCateg.setText(String.valueOf(prodSelected.getIdCateg()));
                 txtUnitPrice.setText(String.valueOf(prodSelected.getUnitPrice()));
                 txtStockUnits.setText(String.valueOf(prodSelected.getStock()));
                 cbDescontinuado.setSelected(prodSelected.isDiscontinued());
+                txtReorder.setText(String.valueOf(prodSelected.getReorder()));
+                txtCantUnit.setText(prodSelected.getQuantity());
+                txtOrderUnits.setText(String.valueOf(prodSelected.getOrder()));
+                
+                lblSupplier.setText(suppliers.get(prodSelected.getIdSupplier()).getContactName());
             } else {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar un producto de la tabla para modificar.");
             }
@@ -1054,15 +1058,14 @@ public class MainFrame extends javax.swing.JFrame {
             if (txtValid((txtUnitPrice.getText())) && txtValid(txtStockUnits.getText())) {
                 btnModificarProd.setText("Modificar producto");
                 bloquearTxt(true);
-                btnAgregarProd.setVisible(true);
-                btnEliminarProd.setVisible(true);
+                
                 modificarProds(1);
                 txtUnitPrice.setText("");
                 txtStockUnits.setText("");
                 cbDescontinuado.setSelected(false);
+                selectedRow = -1;
             } else
                 JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.");
-            selectedRow = -1;
         }
         llenarTablaProds();
     }//GEN-LAST:event_btnModificarProdMouseClicked
@@ -1661,6 +1664,12 @@ public class MainFrame extends javax.swing.JFrame {
         txtCantUnit.setEnabled(enabled);
         txtOrderUnits.setEnabled(enabled);
         tblProdsNoDesc.setEnabled(enabled);
+        listSuppliers.setEnabled(enabled);
+        txtSupplier.setEnabled(enabled);
+        btnSupplier.setVisible(enabled);
+        btnAgregarProd.setVisible(enabled);
+        btnEliminarProd.setVisible(enabled);
+        tblProds.setEnabled(enabled);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
