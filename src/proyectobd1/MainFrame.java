@@ -151,9 +151,9 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jt_Orden_Anio = new javax.swing.JTable();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jt_Proveedor = new javax.swing.JTable();
         jScrollPane9 = new javax.swing.JScrollPane();
         jt_Reporte_Categoria = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -648,7 +648,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(192, 195, 216));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jt_Orden_Anio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -667,20 +667,20 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane7.setViewportView(jTable1);
+        jScrollPane7.setViewportView(jt_Orden_Anio);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jt_Proveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane8.setViewportView(jTable2);
+        jScrollPane8.setViewportView(jt_Proveedor);
 
         jt_Reporte_Categoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -706,23 +706,23 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addGap(58, 58, 58)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(76, 76, 76)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8)
+                    .addComponent(jScrollPane9))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         materialTabbed1.addTab("Reportes", jPanel5);
@@ -970,6 +970,8 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }case 3:{
                 TablaReporteCategoria();
+                Tablaclienteordenes();
+                Tablacantprodvendidistri();
                 break;
             }
         }
@@ -1782,6 +1784,63 @@ public class MainFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    public void Tablaclienteordenes() {
+        c = new MariaDBConnection();
+        String query = "WITH ordenesMA AS\n(SELECT O.CustomerID, YEAR(O.OrderDate) Anio, MONTH(O.OrderDate) Mes, O.OrderID FROM orders O\nINNER JOIN orderdetails OD ON OD.OrderID = O.OrderID\nGROUP BY O.CustomerID, O.OrderID, YEAR(O.OrderDate), MONTH(O.OrderDate))\n" +
+            "SELECT  OMA.CustomerID, OMA.Anio, OMA.Mes, ROUND(SUM((1-OD.Discount)*OD.Quantity*OD.UnitPrice),2) TotalPagar\n FROM ordenesMA OMA \nINNER JOIN orderdetails OD ON OD.OrderID = OMA.OrderID\nGROUP BY OMA.CustomerID, OMA.Anio, OMA.Mes\nORDER BY OMA.CustomerID" ;
+        Statement st;
+        DefaultTableModel modelito=new DefaultTableModel() ;
+        jt_Orden_Anio.setModel(modelito);
+        modelito.addColumn("CustomerID");
+        modelito.addColumn("Año");
+        modelito.addColumn("Mes");
+        modelito.addColumn("Total A Pagar");
+        Object[] ob = new Object[4];
+        try{
+          st = c.connection.createStatement();
+          ResultSet resultado = st.executeQuery(query);
+          while(resultado.next()){
+              ob[0] = resultado.getString(1);
+              ob[1] = resultado.getInt(2);
+              ob[2] = resultado.getInt(3);
+              ob[3] = resultado.getDouble(4);
+              modelito.addRow(ob);
+          }
+          jt_Orden_Anio.setModel(modelito);
+          
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+     
+     public void Tablacantprodvendidistri() {
+        c = new MariaDBConnection();
+        String query = "WITH ProductosVendidosAnioSupplier AS\n (select YEAR(O.OrderDate) anyo, S.SupplierID, P.ProductID ,COUNT(P.ProductID) n_Productos\n" +
+            "from Products P inner join orderdetails OD on OD.ProductID = P.productID inner join Orders O on O.OrderID = OD.OrderID INNER JOIN suppliers S ON S.SupplierID = P.SupplierID \n group by P.ProductID,YEAR(O.OrderDate))\n" +
+            "SELECT PVAS.anyo, S.CompanyName, SUM(PVAS.n_Productos) ProductosVendidos FROM ProductosVendidosAnioSupplier PVAS \n INNER JOIN suppliers S ON S.SupplierID = PVAS.SupplierID \n GROUP BY S.CompanyName, PVAS.anyo";
+        Statement st;
+        DefaultTableModel modelito=new DefaultTableModel() ;
+        jt_Proveedor.setModel(modelito);
+        modelito.addColumn("Año");
+        modelito.addColumn("CompanyName");
+        modelito.addColumn("ProductosVendidos");
+        Object[] ob = new Object[3];
+        try{
+          st = c.connection.createStatement();
+          ResultSet resultado = st.executeQuery(query);
+          while(resultado.next()){
+              ob[0] = resultado.getInt(1);
+              ob[1] = resultado.getString(2);
+              ob[2] = resultado.getInt(3);
+              modelito.addRow(ob);
+          }
+          jt_Proveedor.setModel(modelito);
+          
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProd;
@@ -1837,10 +1896,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTable jt_Orden_Anio;
+    private javax.swing.JTable jt_Proveedor;
     private javax.swing.JTable jt_Reporte_Categoria;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblEmp;
