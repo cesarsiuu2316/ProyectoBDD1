@@ -155,7 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jt_Reporte_Categoria = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
 
@@ -682,7 +682,7 @@ public class MainFrame extends javax.swing.JFrame {
         ));
         jScrollPane8.setViewportView(jTable2);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jt_Reporte_Categoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -698,7 +698,8 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane9.setViewportView(jTable3);
+        jt_Reporte_Categoria.setToolTipText("");
+        jScrollPane9.setViewportView(jt_Reporte_Categoria);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -724,7 +725,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(135, Short.MAX_VALUE))
         );
 
-        materialTabbed1.addTab("tab de cesar", jPanel5);
+        materialTabbed1.addTab("Reportes", jPanel5);
 
         jPanel1.add(materialTabbed1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 1250, 670));
 
@@ -966,6 +967,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
             case 2: {
                 limpiarTab3();
+                break;
+            }case 3:{
+                TablaReporteCategoria();
                 break;
             }
         }
@@ -1727,11 +1731,9 @@ public class MainFrame extends javax.swing.JFrame {
             c.connection.close();
         } catch (Exception e) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, e);
-        }
-        
-
+        }       
     }
-
+    
     public void bloquearTxt(boolean enabled) {
         txtProd.setEnabled(enabled);
         txtReorder.setEnabled(enabled);
@@ -1745,6 +1747,40 @@ public class MainFrame extends javax.swing.JFrame {
         btnAgregarProd.setVisible(enabled);
         btnEliminarProd.setVisible(enabled);
         tblProds.setEnabled(enabled);
+    }
+    
+    public void TablaReporteCategoria() {
+        c = new MariaDBConnection();
+        String query = "WITH ProductsCategoria AS\n" +
+            "(SELECT P.CategoryID, C.CategoryName, COUNT(P.ProductID) Productos\n" +
+            "FROM products P INNER JOIN categories C ON C.CategoryID = P.CategoryID\n" +
+            "GROUP BY P.CategoryID)\n" +
+            "SELECT  C.CategoryID, PC.Productos, COUNT(P.ProductID) ProductosVendidos\n" +
+            "from Products P inner join orderdetails OD on OD.ProductID = P.productID inner join Orders O on O.OrderID = OD.OrderID inner join categories C ON C.CategoryID = P.CategoryID INNER JOIN ProductsCategoria PC ON PC.CategoryID = P.CategoryID\n" +
+            "group BY C.CategoryID, PC.Productos";
+        Statement st;
+        DefaultTableModel modelo=new DefaultTableModel() ;
+        jt_Reporte_Categoria.setModel(modelo);
+        modelo.addColumn("CategoryID");
+        modelo.addColumn("Productos");
+        modelo.addColumn("Productos Vendidos");
+        jt_Reporte_Categoria.setModel(modelo);
+        
+        String [] dato = new String [3];
+        try{
+          st = c.connection.createStatement();
+          ResultSet result = st.executeQuery(query);
+          
+          while(result.next()){
+              dato[0] = result.getString(1);
+              dato[1] = result.getString(2);
+              dato[2] = result.getString(3);
+              modelo.addRow(dato);
+          }
+          
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1803,9 +1839,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTable jt_Reporte_Categoria;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblEmp;
     private javax.swing.JLabel lblNice;
