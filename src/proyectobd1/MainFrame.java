@@ -211,19 +211,19 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtCliente);
-        txtCliente.setBounds(50, 80, 170, 22);
+        txtCliente.setBounds(50, 80, 170, 23);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setText("Buscar cliente");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(50, 60, 170, 18);
+        jLabel1.setBounds(50, 60, 170, 17);
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel4.setForeground(java.awt.Color.white);
         jLabel4.setText("Buscar empleado");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(280, 60, 170, 18);
+        jLabel4.setBounds(280, 60, 170, 17);
 
         txtEmp.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -231,73 +231,74 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtEmp);
-        txtEmp.setBounds(280, 80, 170, 22);
+        txtEmp.setBounds(280, 80, 170, 23);
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel5.setForeground(java.awt.Color.white);
         jLabel5.setText("Agencia de envío");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(520, 60, 200, 18);
+        jLabel5.setBounds(520, 60, 200, 17);
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel6.setForeground(java.awt.Color.white);
         jLabel6.setText("Peso");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(990, 200, 140, 18);
+        jLabel6.setBounds(990, 200, 140, 17);
 
         ftxtPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.##"))));
         jPanel2.add(ftxtPeso);
-        ftxtPeso.setBounds(990, 220, 140, 22);
+        ftxtPeso.setBounds(990, 220, 140, 23);
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel7.setForeground(java.awt.Color.white);
         jLabel7.setText("Nombre del barco");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(990, 60, 140, 18);
+        jLabel7.setBounds(990, 60, 140, 17);
         jPanel2.add(txtBarco);
-        txtBarco.setBounds(990, 80, 140, 22);
+        txtBarco.setBounds(990, 80, 140, 23);
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel9.setForeground(java.awt.Color.white);
         jLabel9.setText("Dirección del envío");
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(520, 120, 200, 18);
+        jLabel9.setBounds(520, 120, 200, 17);
 
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel10.setForeground(java.awt.Color.white);
         jLabel10.setText("Ciudad del envío");
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(790, 130, 140, 18);
+        jLabel10.setBounds(790, 130, 140, 17);
         jPanel2.add(txtCiudad);
-        txtCiudad.setBounds(790, 150, 140, 22);
+        txtCiudad.setBounds(790, 150, 140, 23);
 
         jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel12.setForeground(java.awt.Color.white);
         jLabel12.setText("Región del envío");
         jPanel2.add(jLabel12);
-        jLabel12.setBounds(790, 200, 140, 18);
+        jLabel12.setBounds(790, 200, 140, 17);
         jPanel2.add(txtRegion);
-        txtRegion.setBounds(790, 220, 140, 22);
+        txtRegion.setBounds(790, 220, 140, 23);
 
         jLabel13.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel13.setForeground(java.awt.Color.white);
         jLabel13.setText("Código postal");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(990, 130, 140, 18);
+        jLabel13.setBounds(990, 130, 140, 17);
 
         txtPostal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
         jPanel2.add(txtPostal);
-        txtPostal.setBounds(990, 150, 140, 22);
+        txtPostal.setBounds(990, 150, 140, 23);
 
         jLabel14.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel14.setForeground(java.awt.Color.white);
         jLabel14.setText("País de envío");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(790, 60, 140, 18);
+        jLabel14.setBounds(790, 60, 140, 17);
         jPanel2.add(txtPais);
-        txtPais.setBounds(790, 80, 140, 22);
+        txtPais.setBounds(790, 80, 140, 23);
 
         btnOrdenar.setBackground(new java.awt.Color(153, 153, 255));
+        btnOrdenar.setForeground(new java.awt.Color(255, 255, 255));
         btnOrdenar.setText("Crear orden");
         btnOrdenar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -320,7 +321,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txtProdBuscar);
-        txtProdBuscar.setBounds(50, 290, 240, 22);
+        txtProdBuscar.setBounds(50, 290, 240, 23);
 
         listProds.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(listProds);
@@ -337,18 +338,18 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnSeleccionarProd);
-        btnSeleccionarProd.setBounds(310, 450, 40, 22);
+        btnSeleccionarProd.setBounds(310, 450, 40, 23);
 
         tblProdsOrden.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Producto", "Cantidad", "Descuento"
+                "Producto", "Cantidad", "Descuento", "ID Producto", "ID Orden"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -447,7 +448,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         cboShippersProd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cboShippersProd);
-        cboShippersProd.setBounds(520, 80, 200, 22);
+        cboShippersProd.setBounds(520, 80, 200, 23);
 
         materialTabbed1.addTab("Gestión de Órdenes", jPanel2);
 
@@ -1100,11 +1101,18 @@ public class MainFrame extends javax.swing.JFrame {
         if (listProds.getSelectedIndex() >= 0) {
             DefaultTableModel tabla = (DefaultTableModel) tblProdsOrden.getModel();
             DefaultListModel lista = (DefaultListModel) listProds.getModel();
-            lista.get(listProds.getSelectedIndex());
-
-            String prod = lista.get(listProds.getSelectedIndex()).toString();
+            
+            // Buscar el producto seleccionado 
+            Product prod = null;
+            for (Product p : productos) {
+                if (((String)lista.get(listProds.getSelectedIndex())).contains(p.getName())) {
+                    prod = p;
+                    break;
+                }
+            }
+            
+            // Validar que no se agregue repetido
             boolean existe = false;
-
             for (int i = 0; i < tabla.getRowCount() && !existe; i++) {
                 existe = tabla.getValueAt(i, 0).toString().equals(prod);
             }
@@ -1113,7 +1121,9 @@ public class MainFrame extends javax.swing.JFrame {
                 double desc = r.nextDouble() * 0.5;
                 DecimalFormat df = new DecimalFormat("#.##");
                 String descRounded = df.format(desc);
-                Object[] fila = {prod, "1", descRounded};
+                cargarIDOrders();
+                Object[] fila = {prod.getName(), "1", descRounded, prod.getIdProd(),
+                    idOrders.get(idOrders.size()-1)+1};
                 tabla.addRow(fila);
                 tblProdsOrden.setModel(tabla);
             } else {
@@ -1126,7 +1136,7 @@ public class MainFrame extends javax.swing.JFrame {
             modelo.addElement(producto.getName()+ " ($" +producto.getUnitPrice()+ ")");
             listProds.setModel(modelo);
         } else
-        JOptionPane.showMessageDialog(this, "Debe seleccionar un producto.", "", 1);
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un producto.", "", 1);
     }//GEN-LAST:event_btnSeleccionarProdActionPerformed
 
     private void txtProdBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdBuscarKeyReleased
@@ -1552,10 +1562,28 @@ public class MainFrame extends javax.swing.JFrame {
         // Cargar productos
         if (var == 1) {
             try {
+                // Registrar el precio anterior y la fecha de hoy
+                if (!txtUnitPrice.getText().equals(String.valueOf(prod.getUnitPrice()))) {
+                    c = new MariaDBConnection();
+                    PreparedStatement ps = null;
+                    
+                    String query = "INSERT INTO `HistorialPrecioProductos` (`ProductID`, `fecha`, `unitPrice`)"
+                            + "VALUES (?, ?, ?)";
+                    try {
+                        ps = c.connection.prepareStatement(query);
+                        ps.setInt(1, prod.getIdProd());
+                        ps.setTimestamp(2, new Timestamp(new Date().getTime()));
+                        ps.setDouble(3, Double.valueOf(txtUnitPrice.getText()));
+                        ps.execute();
+                        c.connection.close();
+                    } catch (SQLException ex) {}
+                    ps.executeQuery(query);
+                }
+                
                 st = c.connection.createStatement();
                 // Actualizar Unit Price
-                String query = "UPDATE products SET UnitPrice= " + Double.valueOf(txtUnitPrice.getText()) + " WHERE ProductID= " + prod.getIdProd();
-                st.executeQuery(query);
+                String query1 = "UPDATE products SET UnitPrice= " + Double.valueOf(txtUnitPrice.getText()) + " WHERE ProductID= " + prod.getIdProd();
+                st.executeQuery(query1);
                 // Actualizar stock
                 String query2 = "UPDATE products SET UnitsInStock= " + Integer.valueOf(txtStockUnits.getText()) + " WHERE ProductID= " + prod.getIdProd();
                 st.executeQuery(query2);

@@ -366,6 +366,9 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="99" red="99" type="rgb"/>
                     </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Crear orden"/>
                   </Properties>
                   <Events>
@@ -462,10 +465,12 @@
                     <Component class="javax.swing.JTable" name="tblProdsOrden">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="3" rowCount="0">
+                          <Table columnCount="5" rowCount="0">
                             <Column editable="false" title="Producto" type="java.lang.Object"/>
                             <Column editable="false" title="Cantidad" type="java.lang.Object"/>
                             <Column editable="false" title="Descuento" type="java.lang.Object"/>
+                            <Column editable="false" title="ID Producto" type="java.lang.Object"/>
+                            <Column editable="false" title="ID Orden" type="java.lang.Object"/>
                           </Table>
                         </Property>
                       </Properties>
